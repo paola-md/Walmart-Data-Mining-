@@ -1,0 +1,14 @@
+---
+title: "Análisis exploratorio de datos"
+output: html_notebook
+---
+
+
+```{r}
+source("Utils.R")
+source("00-load.R")
+source("01-prepare.R")
+source("02-clean.R")
+
+```
+
