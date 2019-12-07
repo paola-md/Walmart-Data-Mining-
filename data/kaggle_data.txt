@@ -1,0 +1,3 @@
+https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/download/sample_submission.csv
+https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/download/test.csv
+https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/download/train.csv
