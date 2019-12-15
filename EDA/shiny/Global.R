@@ -9,7 +9,7 @@ instalar <- function(paquete) {
 paquetes <- c('shiny','shinydashboard', 'shinyWidgets','shinyBS',
               'shinycssloaders', 'RPostgres','data.table','tidyr',
               'dplyr','reshape2','stringr','plotly','DT','lubridate',
-              'magrittr')
+              'magrittr', 'tibble','tidygraph','ggraph','visNetwork')
 
 lapply(paquetes, instalar)
 library(readr)
@@ -32,6 +32,11 @@ library(ggplot2)
 library(rlang)
 library(hdrcde)
 library(GGally)
+library(tibble)
+library(tidygraph)
+library(visNetwork)
+library(ggraph)
+library(scales)
 # dev.off()
 
 source('source/SideBarMenuUI.R',
@@ -47,19 +52,63 @@ comprss <- function(tx) {
 
 
 
-#MENUS UI
+######## MENUS UI
 categoricas <- c('visita_tipo','visita_dia_semana','producto_cantidad',
                  'producto_departamento')
 
-numericas <- read_rds('www/walmart_train.RDS') %>% 
-  names 
+conteo <- c('visita_ticket','producto_identificador','producto_cantidad',
+            'producto_categoria')
 
-mixtas <- read_rds('www/walmart_train.RDS') %>% 
-  # select_if(function(x) is.numeric(x)) %>% 
-  names 
+mixtas <-  c('visita_tipo','visita_dia_semana','producto_categoria',
+             'producto_departamento')
+
+
+######### sliderInput modificado
+sliderInput2 <- function(inputId, label, min, max, value, step=NULL, from_min, from_max){
+  x <- sliderInput(inputId, label, min, max, value, step)
+  x$children[[2]]$attribs <- c(x$children[[2]]$attribs, 
+                               "data-from-min" = from_min, 
+                               "data-from-max" = from_max, 
+                               "data-from-shadow" = TRUE)
+  x
+}
+
+##### Funcion para grafos
+graficar_red_nd <- function(dat_g, subtitulo, size = 'centrality'){
+  if(size == 'centrality'){
+    dat_g %>% 
+      ggraph(layout = 'linear', circular = TRUE) +
+      geom_edge_link(aes(edge_width = val), alpha = .3,
+                     arrow = arrow(length = unit(.4, 'mm')),
+                     color = '#24CBE5') +
+      geom_node_point(aes(size = centrality), colour = 'salmon') +
+      geom_node_text(aes(label = nombre), nudge_y = 0.2, size=3, repel = TRUE) +
+      theme_graph(base_family = 'sans')+
+      theme(legend.position = 'bottom')+
+      labs(title = 'Grafo de asociación',
+           subtitle = paste(subtitulo)) 
+  }else{
+    dat_g %>% 
+      ggraph(layout = 'linear', circular = TRUE) +
+      geom_edge_link(aes(edge_width = val), alpha = .3,
+                     arrow = arrow(length = unit(.4, 'mm')),
+                     color = '#24CBE5') +
+      geom_node_point(aes(size = importancia), colour = 'salmon') +
+      geom_node_text(aes(label = nombre), nudge_y = 0.2, size=3, repel = TRUE) +
+      theme_graph(base_family = 'sans')+
+      theme(legend.position = 'bottom')+
+      labs(title = 'Grafo de asociación',
+           subtitle = paste(subtitulo)) 
+  }
+}
+
+############ DATA
+
 
 data <- read_rds('www/walmart_train.RDS')
 
+
+########### Opciones PLOTLY
 tz <- Sys.timezone()
 
 f <- list(

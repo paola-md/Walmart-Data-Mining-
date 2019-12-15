@@ -5,17 +5,17 @@ tabKPI <- function(idPlot,idTable) {
       tabBox(
         title=NULL,
         id = "kpisTabset", width=12,
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Categórico"),
+        tabPanel(title=tagList(shiny::icon("line-chart"),"Donas"),
                  value="TSDash",
                  fluidRow(
-                   box(title = 'plotly:',
+                   box(title = 'Distribución de Categorías:',
                        width=12,
                        shinycssloaders::withSpinner(plotlyOutput(paste0(idPlot,
                                                                         "TS1")))
                    )
                  )
         ),
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Histogramas:"),
+        tabPanel(title=tagList(shiny::icon("line-chart"),"Histogramas"),
                  value="TS1Dash2",
                  fluidRow(
                    box(title = 'Distribución valores:',
@@ -37,37 +37,15 @@ tabKPI2 <- function(idPlot,idTable) {
       tabBox(
         title=NULL,
         id = "kpisTabset2", width=12,
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Pie"),
+        tabPanel(title=tagList(shiny::icon("line-chart"),"Barras"),
                  value="TS2Dash",
                  fluidRow(
-                   box(title = 'ggplot:',
+                   box(title = 'Composición entre categorías',
                        width=12,
                        shinycssloaders::withSpinner(plotOutput(paste0(idPlot,
                                                                         "TSa1")))
                    )
                  )
-        ),
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Histogramas"),
-                 value="TS2Dash2",
-                 fluidRow(
-                   box(title = 'ggplot:',
-                       width=12,
-                       shinycssloaders::withSpinner(plotOutput(paste0(idPlot,
-                                                                        "TSa2")))
-                   )
-                 )
-                 
-        ),
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Mixto"),
-                 value="TS2Dash3",
-                 fluidRow(
-                   box(title = 'plotly:',
-                       width=12,
-                       shinycssloaders::withSpinner(plotlyOutput(paste0(idPlot,
-                                                                        "TSa3")))
-                   )
-                 )
-                 
         )
       )
     )
@@ -80,15 +58,53 @@ tabKPI3 <- function(idPlot,idTable) {
       tabBox(
         title=NULL,
         id = "kpisTabset3", width=12,
-        tabPanel(title=tagList(shiny::icon("line-chart"),"Mixto"),
+        tabPanel(title=tagList(shiny::icon("line-chart"),"HeatMap"),
                  value="TS3Dash",
                  fluidRow(
-                   box(title = 'ggplot:',
+                   box(title = '',
                        width=12,
                        shinycssloaders::withSpinner(plotOutput(paste0(idPlot,
-                                                                        "TSa")))
+                                                                      "TS"),
+                                                               height = 1250))
                    )
                  )
+                 
+        ),
+        tabPanel(title=tagList(shiny::icon("line-chart"),"Centrality"),
+                 value="TS3Dash2",
+                 fluidRow(
+                   box(title = '',
+                       width=12,
+                       shinycssloaders::withSpinner(plotOutput(paste0(idPlot,
+                                                                        "TSa"),
+                                                                      height = 1250))
+                   )
+                 ),
+                 fluidRow(
+                   box(title = 'Tabla de la medida de Centralidad entre grafos:',
+                       width=12,
+                       shinycssloaders::withSpinner(DTOutput(paste0(idPlot,
+                                                                    "outa")))
+                   )
+                 )
+        ),  
+        tabPanel(title=tagList(shiny::icon("line-chart"),"Betweeness"),
+                        value="TS3Dash3",
+                        fluidRow(
+                          box(title = '',
+                              width=12,
+                              shinycssloaders::withSpinner(plotOutput(paste0(idPlot,
+                                                                             "TSb"),
+                                                                             height = 1250))
+                          )),
+                          fluidRow(
+                            box(title = 'Tabla de la medida de Betweeness entre grafos:',
+                                width=12,
+                                shinycssloaders::withSpinner(DTOutput(paste0(idPlot,
+                                                                               "outb")))
+                            )
+                        )
+        
         )
       )
     )
