@@ -22,7 +22,7 @@ library(arules)
 
 ############ EDA valores faltantes
 
-df <- readRDS('shiny/www/walmart_train.RDS')
+df <- readRDS('www/walmart_train.RDS')
 
 #Valores faltantes
 apply(is.na(df),2,sum)
@@ -87,7 +87,7 @@ df %>%
 #MKT BKT
 tt <- df %>% 
   filter(!is.na(producto_identificador)) %>% 
-  sample_n(size = floor(nrow(df)*.1))
+  sample_n(size = floor(nrow(df)*.001))
 
 lis1 <- split(tt$producto_identificador, tt$visita_ticket)
 
