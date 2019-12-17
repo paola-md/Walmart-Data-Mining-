@@ -1,0 +1,940 @@
+---
+title: "Análisis exploratorio de datos"
+output: html_notebook
+---
+
+
+```{r}
+source("./../code/Utils.R")
+source("./../code/00-load.R")
+```
+
+Tenemos las siguientes 7 variables:
+
+* TripType - Variable objetivo. Son 38 diferentes categorias.
+
+* Visit Number - ID de viaje. 
+* Weekday - Dia de la semana
+* UPC - número de barras (id de producto)
+* ScanCount - Número de productos contados. Si se devolvió es negativo
+* Department Description - Descripción de categoria
+* Fineline Number - id de 5196 productos
+
+Convertimos los nombres a minúsculas
+```{r}
+colnames(walmart_train) <- tolower(colnames(walmart_train) )
+colnames(walmart_train)
+```
+
+```{r}
+walmart_train %>% group_by(triptype) %>% 
+  mutate(
+    num_count = length(unique(departmentdescription))
+  ) %>% distinct(triptype, num_count) %>% ungroup()
+```
+
+
+```{r}
+walmart_data <- walmart_train
+glimpse(walmart_data)
+```
+
+```{r}
+library(funModeling)
+describe(walmart_data)
+```
+
+```{r}
+data_integrity(walmart_data)
+```
+
+
+## Selección de información
+
+```{r}
+format_data <- function(data) {
+  colnames(data) <- tolower(colnames(data) )
+  data
+}
+
+fill_na <- function(data) {
+  data %>% mutate(
+    prod_miss = ifelse(is.na(upc), 1, 0),
+    upc = ifelse(is.na(upc), 0, upc),
+    finelinenumber = ifelse(is.na(finelinenumber), 0, finelinenumber)
+  )
+}
+
+
+select_features <- function(data) {
+  data %>% dplyr::select(-weekday, -upc, -visitnumber )
+}
+```
+
+
+## Ingeniería de características
+
+Crear variable indicadora de fin de semana
+```{r}
+create_features <- function(data) {
+  data %>% mutate(
+    weekend = case_when(
+      weekday == "Saturday" ~ 1,
+      weekday == "Sunday" ~ 1,
+      TRUE ~ 0
+    ),
+    day = case_when(
+      weekday == "Saturday" ~ 6,
+      weekday == "Sunday" ~ 7,
+      weekday == "Monday" ~ 1,
+      weekday == "Tuesday" ~ 2,
+      weekday == "Wednesday" ~ 3,
+      weekday == "Thursday" ~ 4,
+      weekday == "Friday" ~ 5,
+      TRUE ~ 0
+    ),
+    dep_id = case_when(
+    departmentdescription == 'FINANCIAL SERVICES' ~ 1,
+    departmentdescription == 'SHOES' ~ 2,
+    departmentdescription == 'PERSONAL CARE' ~ 3,
+    departmentdescription == 'PAINT AND ACCESSORIES' ~ 4,
+    departmentdescription == 'DSD GROCERY' ~ 5,
+    departmentdescription == 'MEAT - FRESH & FROZEN' ~ 6,
+    departmentdescription == 'DAIRY' ~ 7,
+    departmentdescription == 'PETS AND SUPPLIES' ~ 8,
+    departmentdescription == 'HOUSEHOLD CHEMICALS/SUPP' ~ 9,
+    departmentdescription == 'NULL' ~ 10,
+    departmentdescription == 'IMPULSE MERCHANDISE' ~ 11,
+    departmentdescription == 'PRODUCE' ~ 12,
+    departmentdescription == 'CANDY, TOBACCO, COOKIES' ~ 13,
+    departmentdescription == 'GROCERY DRY GOODS' ~ 14,
+    departmentdescription == 'BOYS WEAR' ~ 15,
+    departmentdescription == 'FABRICS AND CRAFTS' ~ 16,
+    departmentdescription == 'JEWELRY AND SUNGLASSES' ~ 17,
+    departmentdescription == 'MENS WEAR' ~ 18,
+    departmentdescription == 'ACCESSORIES' ~ 19,
+    departmentdescription == 'HOME MANAGEMENT' ~ 20,
+    departmentdescription == 'FROZEN FOODS' ~ 21,
+    departmentdescription == 'SERVICE DELI' ~ 22,
+    departmentdescription == 'INFANT CONSUMABLE HARDLINES' ~ 23,
+    departmentdescription == 'PRE PACKED DELI' ~ 24,
+    departmentdescription == 'COOK AND DINE' ~ 25,
+    departmentdescription == 'PHARMACY OTC' ~ 26,
+    departmentdescription == 'LADIESWEAR' ~ 27,
+    departmentdescription == 'COMM BREAD' ~ 28,
+    departmentdescription == 'BAKERY' ~ 29,
+    departmentdescription == 'HOUSEHOLD PAPER GOODS' ~ 30,
+    departmentdescription == 'CELEBRATION' ~ 31,
+    departmentdescription == 'HARDWARE' ~ 32,
+    departmentdescription == 'BEAUTY' ~ 33,
+    departmentdescription == 'AUTOMOTIVE' ~ 34,
+    departmentdescription == 'BOOKS AND MAGAZINES' ~ 35,
+    departmentdescription == 'SEAFOOD' ~ 36,
+    departmentdescription == 'OFFICE SUPPLIES' ~ 37,
+    departmentdescription == 'LAWN AND GARDEN' ~ 38,
+    departmentdescription == 'SHEER HOSIERY' ~ 39,
+    departmentdescription == 'WIRELESS' ~ 40,
+    departmentdescription == 'BEDDING' ~ 41,
+    departmentdescription == 'BATH AND SHOWER' ~ 42,
+    departmentdescription == 'HORTICULTURE AND ACCESS' ~ 43,
+    departmentdescription == 'HOME DECOR' ~ 44,
+    departmentdescription == 'TOYS' ~ 45,
+    departmentdescription == 'INFANT APPAREL' ~ 46,
+    departmentdescription == 'LADIES SOCKS' ~ 47,
+    departmentdescription == 'PLUS AND MATERNITY' ~ 48,
+    departmentdescription == 'ELECTRONICS' ~ 49,
+    departmentdescription == 'GIRLS WEAR, 4-6X  AND 7-14' ~ 50,
+    departmentdescription == 'BRAS & SHAPEWEAR' ~ 51,
+    departmentdescription == 'LIQUOR,WINE,BEER' ~ 52,
+    departmentdescription == 'SLEEPWEAR/FOUNDATIONS' ~ 53,
+    departmentdescription == 'CAMERAS AND SUPPLIES' ~ 54,
+    departmentdescription == 'SPORTING GOODS' ~ 55,
+    departmentdescription == 'PLAYERS AND ELECTRONICS' ~ 56,
+    departmentdescription == 'PHARMACY RX' ~ 57,
+    departmentdescription == 'MENSWEAR' ~ 58,
+    departmentdescription == 'OPTICAL - FRAMES' ~ 59,
+    departmentdescription == 'SWIMWEAR/OUTERWEAR' ~ 60,
+    departmentdescription == 'OTHER DEPARTMENTS' ~ 61,
+    departmentdescription == 'MEDIA AND GAMING' ~ 62,
+    departmentdescription == 'FURNITURE' ~ 63,
+    departmentdescription == 'OPTICAL - LENSES' ~ 64,
+    departmentdescription == 'SEASONAL' ~ 65,
+    departmentdescription == 'LARGE HOUSEHOLD GOODS' ~ 66,
+    departmentdescription == '1-HR PHOTO' ~ 67,
+    departmentdescription == 'CONCEPT STORES' ~ 68,
+    departmentdescription == 'HEALTH AND BEAUTY AIDS' ~ 69
+    )
+  ) %>% group_by(visitnumber) %>% 
+    mutate(
+      obj_abs = sum(abs(scancount)),
+      num_obj =  sum(scancount),
+      porc_devol = 1 - (num_obj/obj_abs),
+      devol = ifelse(porc_devol<1,1,0),
+      unique_prod = length(unique(finelinenumber))
+    ) %>% ungroup()
+}
+
+
+sum_features <- function(data) {
+  data %>%
+    mutate(
+      dep_1= ifelse(dep_id==1,1,0),
+      dep_2= ifelse(dep_id==2,1,0),
+      dep_3= ifelse(dep_id==3,1,0),
+      dep_4= ifelse(dep_id==4,1,0),
+      dep_5= ifelse(dep_id==5,1,0),
+      dep_6= ifelse(dep_id==6,1,0),
+      dep_7= ifelse(dep_id==7,1,0),
+      dep_8= ifelse(dep_id==8,1,0),
+      dep_9= ifelse(dep_id==9,1,0),
+      dep_10= ifelse(dep_id==10,1,0),
+      dep_11= ifelse(dep_id==11,1,0),
+      dep_12= ifelse(dep_id==12,1,0),
+      dep_13= ifelse(dep_id==13,1,0),
+      dep_14= ifelse(dep_id==14,1,0),
+      dep_15= ifelse(dep_id==15,1,0),
+      dep_16= ifelse(dep_id==16,1,0),
+      dep_17= ifelse(dep_id==17,1,0),
+      dep_18= ifelse(dep_id==18,1,0),
+      dep_19= ifelse(dep_id==19,1,0),
+      dep_20= ifelse(dep_id==20,1,0),
+      dep_21= ifelse(dep_id==21,1,0),
+      dep_22= ifelse(dep_id==22,1,0),
+      dep_23= ifelse(dep_id==23,1,0),
+      dep_24= ifelse(dep_id==24,1,0),
+      dep_25= ifelse(dep_id==25,1,0),
+      dep_26= ifelse(dep_id==26,1,0),
+      dep_27= ifelse(dep_id==27,1,0),
+      dep_28= ifelse(dep_id==28,1,0),
+      dep_29= ifelse(dep_id==29,1,0),
+      dep_30= ifelse(dep_id==30,1,0),
+      dep_31= ifelse(dep_id==31,1,0),
+      dep_32= ifelse(dep_id==32,1,0),
+      dep_33= ifelse(dep_id==33,1,0),
+      dep_34= ifelse(dep_id==34,1,0),
+      dep_35= ifelse(dep_id==35,1,0),
+      dep_36= ifelse(dep_id==36,1,0),
+      dep_37= ifelse(dep_id==37,1,0),
+      dep_38= ifelse(dep_id==38,1,0),
+      dep_39= ifelse(dep_id==39,1,0),
+      dep_40= ifelse(dep_id==40,1,0),
+      dep_41= ifelse(dep_id==41,1,0),
+      dep_42= ifelse(dep_id==42,1,0),
+      dep_43= ifelse(dep_id==43,1,0),
+      dep_44= ifelse(dep_id==44,1,0),
+      dep_45= ifelse(dep_id==45,1,0),
+      dep_46= ifelse(dep_id==46,1,0),
+      dep_47= ifelse(dep_id==47,1,0),
+      dep_48= ifelse(dep_id==48,1,0),
+      dep_49= ifelse(dep_id==49,1,0),
+      dep_50= ifelse(dep_id==50,1,0),
+      dep_51= ifelse(dep_id==51,1,0),
+      dep_52= ifelse(dep_id==52,1,0),
+      dep_53= ifelse(dep_id==53,1,0),
+      dep_54= ifelse(dep_id==54,1,0),
+      dep_55= ifelse(dep_id==55,1,0),
+      dep_56= ifelse(dep_id==56,1,0),
+      dep_57= ifelse(dep_id==57,1,0),
+      dep_58= ifelse(dep_id==58,1,0),
+      dep_59= ifelse(dep_id==59,1,0),
+      dep_60= ifelse(dep_id==60,1,0),
+      dep_61= ifelse(dep_id==61,1,0),
+      dep_62= ifelse(dep_id==62,1,0),
+      dep_63= ifelse(dep_id==63,1,0),
+      dep_64= ifelse(dep_id==64,1,0),
+      dep_65= ifelse(dep_id==65,1,0),
+      dep_66= ifelse(dep_id==66,1,0),
+      dep_67= ifelse(dep_id==67,1,0),
+      dep_68= ifelse(dep_id==68,1,0),
+      dep_69= ifelse(dep_id==69,1,0)
+      ) %>% 
+    group_by(visitnumber) %>% 
+    dplyr::summarise(
+      prob_1= sum(dep_1)/n(),
+      prob_2= sum(dep_2)/n(),
+      prob_3= sum(dep_3)/n(),
+      prob_4= sum(dep_4)/n(),
+      prob_5= sum(dep_5)/n(),
+      prob_6= sum(dep_6)/n(),
+      prob_7= sum(dep_7)/n(),
+      prob_8= sum(dep_8)/n(),
+      prob_9= sum(dep_9)/n(),
+      prob_10= sum(dep_10)/n(),
+      prob_11= sum(dep_11)/n(),
+      prob_12= sum(dep_12)/n(),
+      prob_13= sum(dep_13)/n(),
+      prob_14= sum(dep_14)/n(),
+      prob_15= sum(dep_15)/n(),
+      prob_16= sum(dep_16)/n(),
+      prob_17= sum(dep_17)/n(),
+      prob_18= sum(dep_18)/n(),
+      prob_19= sum(dep_19)/n(),
+      prob_20= sum(dep_20)/n(),
+      prob_21= sum(dep_21)/n(),
+      prob_22= sum(dep_22)/n(),
+      prob_23= sum(dep_23)/n(),
+      prob_24= sum(dep_24)/n(),
+      prob_25= sum(dep_25)/n(),
+      prob_26= sum(dep_26)/n(),
+      prob_27= sum(dep_27)/n(),
+      prob_28= sum(dep_28)/n(),
+      prob_29= sum(dep_29)/n(),
+      prob_30= sum(dep_30)/n(),
+      prob_31= sum(dep_31)/n(),
+      prob_32= sum(dep_32)/n(),
+      prob_33= sum(dep_33)/n(),
+      prob_34= sum(dep_34)/n(),
+      prob_35= sum(dep_35)/n(),
+      prob_36= sum(dep_36)/n(),
+      prob_37= sum(dep_37)/n(),
+      prob_38= sum(dep_38)/n(),
+      prob_39= sum(dep_39)/n(),
+      prob_40= sum(dep_40)/n(),
+      prob_41= sum(dep_41)/n(),
+      prob_42= sum(dep_42)/n(),
+      prob_43= sum(dep_43)/n(),
+      prob_44= sum(dep_44)/n(),
+      prob_45= sum(dep_45)/n(),
+      prob_46= sum(dep_46)/n(),
+      prob_47= sum(dep_47)/n(),
+      prob_48= sum(dep_48)/n(),
+      prob_49= sum(dep_49)/n(),
+      prob_50= sum(dep_50)/n(),
+      prob_51= sum(dep_51)/n(),
+      prob_52= sum(dep_52)/n(),
+      prob_53= sum(dep_53)/n(),
+      prob_54= sum(dep_54)/n(),
+      prob_55= sum(dep_55)/n(),
+      prob_56= sum(dep_56)/n(),
+      prob_57= sum(dep_57)/n(),
+      prob_58= sum(dep_58)/n(),
+      prob_59= sum(dep_59)/n(),
+      prob_60= sum(dep_60)/n(),
+      prob_61= sum(dep_61)/n(),
+      prob_62= sum(dep_62)/n(),
+      prob_63= sum(dep_63)/n(),
+      prob_64= sum(dep_64)/n(),
+      prob_65= sum(dep_65)/n(),
+      prob_66= sum(dep_66)/n(),
+      prob_67= sum(dep_67)/n(),
+      prob_68= sum(dep_68)/n(),
+      prob_69= sum(dep_69)/n(),
+      obj_abs = sum(abs(scancount)),
+      num_obj =  sum(scancount),
+      porc_devol = 1 - (num_obj/obj_abs),
+      devol = ifelse(porc_devol<1,1,0),
+      unique_prod = length(unique(finelinenumber)),
+      triptype = mean(triptype),
+      day = mean(day),
+      weekend = mean(weekend)
+    ) %>% ungroup()
+}
+
+
+sum_features_test <- function(data) {
+  data %>%
+    mutate(
+      dep_1= ifelse(dep_id==1,1,0),
+      dep_2= ifelse(dep_id==2,1,0),
+      dep_3= ifelse(dep_id==3,1,0),
+      dep_4= ifelse(dep_id==4,1,0),
+      dep_5= ifelse(dep_id==5,1,0),
+      dep_6= ifelse(dep_id==6,1,0),
+      dep_7= ifelse(dep_id==7,1,0),
+      dep_8= ifelse(dep_id==8,1,0),
+      dep_9= ifelse(dep_id==9,1,0),
+      dep_10= ifelse(dep_id==10,1,0),
+      dep_11= ifelse(dep_id==11,1,0),
+      dep_12= ifelse(dep_id==12,1,0),
+      dep_13= ifelse(dep_id==13,1,0),
+      dep_14= ifelse(dep_id==14,1,0),
+      dep_15= ifelse(dep_id==15,1,0),
+      dep_16= ifelse(dep_id==16,1,0),
+      dep_17= ifelse(dep_id==17,1,0),
+      dep_18= ifelse(dep_id==18,1,0),
+      dep_19= ifelse(dep_id==19,1,0),
+      dep_20= ifelse(dep_id==20,1,0),
+      dep_21= ifelse(dep_id==21,1,0),
+      dep_22= ifelse(dep_id==22,1,0),
+      dep_23= ifelse(dep_id==23,1,0),
+      dep_24= ifelse(dep_id==24,1,0),
+      dep_25= ifelse(dep_id==25,1,0),
+      dep_26= ifelse(dep_id==26,1,0),
+      dep_27= ifelse(dep_id==27,1,0),
+      dep_28= ifelse(dep_id==28,1,0),
+      dep_29= ifelse(dep_id==29,1,0),
+      dep_30= ifelse(dep_id==30,1,0),
+      dep_31= ifelse(dep_id==31,1,0),
+      dep_32= ifelse(dep_id==32,1,0),
+      dep_33= ifelse(dep_id==33,1,0),
+      dep_34= ifelse(dep_id==34,1,0),
+      dep_35= ifelse(dep_id==35,1,0),
+      dep_36= ifelse(dep_id==36,1,0),
+      dep_37= ifelse(dep_id==37,1,0),
+      dep_38= ifelse(dep_id==38,1,0),
+      dep_39= ifelse(dep_id==39,1,0),
+      dep_40= ifelse(dep_id==40,1,0),
+      dep_41= ifelse(dep_id==41,1,0),
+      dep_42= ifelse(dep_id==42,1,0),
+      dep_43= ifelse(dep_id==43,1,0),
+      dep_44= ifelse(dep_id==44,1,0),
+      dep_45= ifelse(dep_id==45,1,0),
+      dep_46= ifelse(dep_id==46,1,0),
+      dep_47= ifelse(dep_id==47,1,0),
+      dep_48= ifelse(dep_id==48,1,0),
+      dep_49= ifelse(dep_id==49,1,0),
+      dep_50= ifelse(dep_id==50,1,0),
+      dep_51= ifelse(dep_id==51,1,0),
+      dep_52= ifelse(dep_id==52,1,0),
+      dep_53= ifelse(dep_id==53,1,0),
+      dep_54= ifelse(dep_id==54,1,0),
+      dep_55= ifelse(dep_id==55,1,0),
+      dep_56= ifelse(dep_id==56,1,0),
+      dep_57= ifelse(dep_id==57,1,0),
+      dep_58= ifelse(dep_id==58,1,0),
+      dep_59= ifelse(dep_id==59,1,0),
+      dep_60= ifelse(dep_id==60,1,0),
+      dep_61= ifelse(dep_id==61,1,0),
+      dep_62= ifelse(dep_id==62,1,0),
+      dep_63= ifelse(dep_id==63,1,0),
+      dep_64= ifelse(dep_id==64,1,0),
+      dep_65= ifelse(dep_id==65,1,0),
+      dep_66= ifelse(dep_id==66,1,0),
+      dep_67= ifelse(dep_id==67,1,0),
+      dep_68= ifelse(dep_id==68,1,0),
+      dep_69= ifelse(dep_id==69,1,0)
+      ) %>% 
+    group_by(visitnumber) %>% 
+    dplyr::summarise(
+      prob_1= sum(dep_1)/n(),
+      prob_2= sum(dep_2)/n(),
+      prob_3= sum(dep_3)/n(),
+      prob_4= sum(dep_4)/n(),
+      prob_5= sum(dep_5)/n(),
+      prob_6= sum(dep_6)/n(),
+      prob_7= sum(dep_7)/n(),
+      prob_8= sum(dep_8)/n(),
+      prob_9= sum(dep_9)/n(),
+      prob_10= sum(dep_10)/n(),
+      prob_11= sum(dep_11)/n(),
+      prob_12= sum(dep_12)/n(),
+      prob_13= sum(dep_13)/n(),
+      prob_14= sum(dep_14)/n(),
+      prob_15= sum(dep_15)/n(),
+      prob_16= sum(dep_16)/n(),
+      prob_17= sum(dep_17)/n(),
+      prob_18= sum(dep_18)/n(),
+      prob_19= sum(dep_19)/n(),
+      prob_20= sum(dep_20)/n(),
+      prob_21= sum(dep_21)/n(),
+      prob_22= sum(dep_22)/n(),
+      prob_23= sum(dep_23)/n(),
+      prob_24= sum(dep_24)/n(),
+      prob_25= sum(dep_25)/n(),
+      prob_26= sum(dep_26)/n(),
+      prob_27= sum(dep_27)/n(),
+      prob_28= sum(dep_28)/n(),
+      prob_29= sum(dep_29)/n(),
+      prob_30= sum(dep_30)/n(),
+      prob_31= sum(dep_31)/n(),
+      prob_32= sum(dep_32)/n(),
+      prob_33= sum(dep_33)/n(),
+      prob_34= sum(dep_34)/n(),
+      prob_35= sum(dep_35)/n(),
+      prob_36= sum(dep_36)/n(),
+      prob_37= sum(dep_37)/n(),
+      prob_38= sum(dep_38)/n(),
+      prob_39= sum(dep_39)/n(),
+      prob_40= sum(dep_40)/n(),
+      prob_41= sum(dep_41)/n(),
+      prob_42= sum(dep_42)/n(),
+      prob_43= sum(dep_43)/n(),
+      prob_44= sum(dep_44)/n(),
+      prob_45= sum(dep_45)/n(),
+      prob_46= sum(dep_46)/n(),
+      prob_47= sum(dep_47)/n(),
+      prob_48= sum(dep_48)/n(),
+      prob_49= sum(dep_49)/n(),
+      prob_50= sum(dep_50)/n(),
+      prob_51= sum(dep_51)/n(),
+      prob_52= sum(dep_52)/n(),
+      prob_53= sum(dep_53)/n(),
+      prob_54= sum(dep_54)/n(),
+      prob_55= sum(dep_55)/n(),
+      prob_56= sum(dep_56)/n(),
+      prob_57= sum(dep_57)/n(),
+      prob_58= sum(dep_58)/n(),
+      prob_59= sum(dep_59)/n(),
+      prob_60= sum(dep_60)/n(),
+      prob_61= sum(dep_61)/n(),
+      prob_62= sum(dep_62)/n(),
+      prob_63= sum(dep_63)/n(),
+      prob_64= sum(dep_64)/n(),
+      prob_65= sum(dep_65)/n(),
+      prob_66= sum(dep_66)/n(),
+      prob_67= sum(dep_67)/n(),
+      prob_68= sum(dep_68)/n(),
+      prob_69= sum(dep_69)/n(),
+      obj_abs = sum(abs(scancount)),
+      num_obj =  sum(scancount),
+      porc_devol = 1 - (num_obj/obj_abs),
+      devol = ifelse(porc_devol<1,1,0),
+      unique_prod = length(unique(finelinenumber)),
+      day = mean(day),
+      weekend = mean(weekend)
+    ) %>% ungroup()
+}
+
+add_features <- function(data){
+  mas_info_dep <- read_csv("./../data/mas_info_dep.csv")
+  data <- data %>% left_join(mas_info_dep, by ="dep_id")
+  
+}
+
+```
+
+
+```{r}
+source("./../code/00-load.R")
+walmart_train_prod <- walmart_train %>% 
+                format_data %>% 
+                fill_na() %>% 
+                create_features() %>%
+                add_features() %>% 
+                select_features() 
+
+walmart_train_trip <- walmart_train %>% 
+                      format_data %>% 
+                      fill_na() %>% 
+                      create_features() %>%
+                      sum_features()
+
+walmart_test_prod <- walmart_test %>% 
+                      format_data %>% 
+                      fill_na() %>% 
+                      create_features() %>%
+                      add_features()
+
+walmart_test_trip <- walmart_test %>% 
+                      format_data %>% 
+                      fill_na() %>% 
+                      create_features() %>%
+                      sum_features_test()
+
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+write.csv(walmart_train_prod, "./../temp/walmart_train_prod.csv")
+write.csv(walmart_train_trip, "./../temp/walmart_train_trip.csv")
+write.csv(walmart_test_prod, "./../temp/walmart_test_prod.csv")
+write.csv(walmart_test_trip, "./../temp/walmart_test_trip.csv")
+
+
+
+```
+
+
+```{r}
+source("./../code/00-load.R")
+walmart_data <- walmart_train %>% format_data() %>% create_features()
+
+walmart_data <- walmart_data %>%
+  mutate(
+    trip_999= ifelse(triptype==999,1,0),
+    trip_30= ifelse(triptype==30,1,0),
+    trip_26= ifelse(triptype==26,1,0),
+    trip_8= ifelse(triptype==8,1,0),
+    trip_35= ifelse(triptype==35,1,0),
+    trip_41= ifelse(triptype==41,1,0),
+    trip_21= ifelse(triptype==21,1,0),
+    trip_6= ifelse(triptype==6,1,0),
+    trip_42= ifelse(triptype==42,1,0),
+    trip_7= ifelse(triptype==7,1,0),
+    trip_9= ifelse(triptype==9,1,0),
+    trip_39= ifelse(triptype==39,1,0),
+    trip_25= ifelse(triptype==25,1,0),
+    trip_38= ifelse(triptype==38,1,0),
+    trip_15= ifelse(triptype==15,1,0),
+    trip_36= ifelse(triptype==36,1,0),
+    trip_20= ifelse(triptype==20,1,0),
+    trip_37= ifelse(triptype==37,1,0),
+    trip_32= ifelse(triptype==32,1,0),
+    trip_40= ifelse(triptype==40,1,0),
+    trip_5= ifelse(triptype==5,1,0),
+    trip_3= ifelse(triptype==3,1,0),
+    trip_4= ifelse(triptype==4,1,0),
+    trip_24= ifelse(triptype==24,1,0),
+    trip_33= ifelse(triptype==33,1,0),
+    trip_43= ifelse(triptype==43,1,0),
+    trip_31= ifelse(triptype==31,1,0),
+    trip_27= ifelse(triptype==27,1,0),
+    trip_34= ifelse(triptype==34,1,0),
+    trip_18= ifelse(triptype==18,1,0),
+    trip_29= ifelse(triptype==29,1,0),
+    trip_44= ifelse(triptype==44,1,0),
+    trip_19= ifelse(triptype==19,1,0),
+    trip_23= ifelse(triptype==23,1,0),
+    trip_22= ifelse(triptype==22,1,0),
+    trip_28= ifelse(triptype==28,1,0),
+    trip_14= ifelse(triptype==14,1,0),
+    trip_12= ifelse(triptype==12,1,0)
+  ) %>% 
+  group_by(dep_id) %>% 
+  dplyr::summarise(
+    prob_999= sum(trip_999)/n(),
+    prob_30= sum(trip_30)/n(),
+    prob_26= sum(trip_26)/n(),
+    prob_8= sum(trip_8)/n(),
+    prob_35= sum(trip_35)/n(),
+    prob_41= sum(trip_41)/n(),
+    prob_21= sum(trip_21)/n(),
+    prob_6= sum(trip_6)/n(),
+    prob_42= sum(trip_42)/n(),
+    prob_7= sum(trip_7)/n(),
+    prob_9= sum(trip_9)/n(),
+    prob_39= sum(trip_39)/n(),
+    prob_25= sum(trip_25)/n(),
+    prob_38= sum(trip_38)/n(),
+    prob_15= sum(trip_15)/n(),
+    prob_36= sum(trip_36)/n(),
+    prob_20= sum(trip_20)/n(),
+    prob_37= sum(trip_37)/n(),
+    prob_32= sum(trip_32)/n(),
+    prob_40= sum(trip_40)/n(),
+    prob_5= sum(trip_5)/n(),
+    prob_3= sum(trip_3)/n(),
+    prob_4= sum(trip_4)/n(),
+    prob_24= sum(trip_24)/n(),
+    prob_33= sum(trip_33)/n(),
+    prob_43= sum(trip_43)/n(),
+    prob_31= sum(trip_31)/n(),
+    prob_27= sum(trip_27)/n(),
+    prob_34= sum(trip_34)/n(),
+    prob_18= sum(trip_18)/n(),
+    prob_29= sum(trip_29)/n(),
+    prob_44= sum(trip_44)/n(),
+    prob_19= sum(trip_19)/n(),
+    prob_23= sum(trip_23)/n(),
+    prob_22= sum(trip_22)/n(),
+    prob_28= sum(trip_28)/n(),
+    prob_14= sum(trip_14)/n(),
+    prob_12= sum(trip_12)/n(),
+
+  ) %>% ungroup()
+
+
+walmart_data <- walmart_data %>% dplyr::select(-starts_with('trip_'))
+```
+
+
+```{r}
+library(data.table)
+walmart_col <- walmart_data%>% dplyr::select(starts_with('prob'))
+colnames(walmart_col)
+
+walmart_table<- data.table(walmart_data)
+walmart_table[, MAX2 := colnames(.SD)[max.col(.SD, ties.method="first")], .SDcols = c("prob_999","prob_30","prob_26","prob_8","prob_35","prob_41","prob_21","prob_6","prob_42","prob_7","prob_9","prob_39","prob_25","prob_38","prob_15","prob_36","prob_20","prob_37","prob_32","prob_40","prob_5","prob_3","prob_4","prob_24","prob_33","prob_43","prob_31","prob_27","prob_34","prob_18","prob_29","prob_44","prob_19","prob_23","prob_22","prob_28","prob_14","prob_12")]
+
+
+walmart_max <- data.frame(walmart_table)
+walmart_max$max_prob <- as.numeric(substr(walmart_max$MAX2,6,7))
+
+
+info_dep <- walmart_max %>% distinct(dep_id, .keep_all = TRUE) %>% dplyr::select(dep_id, starts_with("prob_"), max_prob)
+write.csv(info_dep, "./../data/info_dep.csv")
+
+```
+
+
+```{r}
+walmart_cor <- walmart_max %>% 
+  dplyr::select(starts_with("prob_"))
+
+
+res<-cor(walmart_cor)
+
+library(corrplot)
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+
+```
+
+# Al revés
+
+```{r}
+source("./../code/00-load.R")
+walmart_data <- walmart_train %>% format_data() %>% create_features()
+
+
+walmart_data <- walmart_data %>%
+  mutate(
+    dep_1= ifelse(dep_id==1,1,0),
+    dep_2= ifelse(dep_id==2,1,0),
+    dep_3= ifelse(dep_id==3,1,0),
+    dep_4= ifelse(dep_id==4,1,0),
+    dep_5= ifelse(dep_id==5,1,0),
+    dep_6= ifelse(dep_id==6,1,0),
+    dep_7= ifelse(dep_id==7,1,0),
+    dep_8= ifelse(dep_id==8,1,0),
+    dep_9= ifelse(dep_id==9,1,0),
+    dep_10= ifelse(dep_id==10,1,0),
+    dep_11= ifelse(dep_id==11,1,0),
+    dep_12= ifelse(dep_id==12,1,0),
+    dep_13= ifelse(dep_id==13,1,0),
+    dep_14= ifelse(dep_id==14,1,0),
+    dep_15= ifelse(dep_id==15,1,0),
+    dep_16= ifelse(dep_id==16,1,0),
+    dep_17= ifelse(dep_id==17,1,0),
+    dep_18= ifelse(dep_id==18,1,0),
+    dep_19= ifelse(dep_id==19,1,0),
+    dep_20= ifelse(dep_id==20,1,0),
+    dep_21= ifelse(dep_id==21,1,0),
+    dep_22= ifelse(dep_id==22,1,0),
+    dep_23= ifelse(dep_id==23,1,0),
+    dep_24= ifelse(dep_id==24,1,0),
+    dep_25= ifelse(dep_id==25,1,0),
+    dep_26= ifelse(dep_id==26,1,0),
+    dep_27= ifelse(dep_id==27,1,0),
+    dep_28= ifelse(dep_id==28,1,0),
+    dep_29= ifelse(dep_id==29,1,0),
+    dep_30= ifelse(dep_id==30,1,0),
+    dep_31= ifelse(dep_id==31,1,0),
+    dep_32= ifelse(dep_id==32,1,0),
+    dep_33= ifelse(dep_id==33,1,0),
+    dep_34= ifelse(dep_id==34,1,0),
+    dep_35= ifelse(dep_id==35,1,0),
+    dep_36= ifelse(dep_id==36,1,0),
+    dep_37= ifelse(dep_id==37,1,0),
+    dep_38= ifelse(dep_id==38,1,0),
+    dep_39= ifelse(dep_id==39,1,0),
+    dep_40= ifelse(dep_id==40,1,0),
+    dep_41= ifelse(dep_id==41,1,0),
+    dep_42= ifelse(dep_id==42,1,0),
+    dep_43= ifelse(dep_id==43,1,0),
+    dep_44= ifelse(dep_id==44,1,0),
+    dep_45= ifelse(dep_id==45,1,0),
+    dep_46= ifelse(dep_id==46,1,0),
+    dep_47= ifelse(dep_id==47,1,0),
+    dep_48= ifelse(dep_id==48,1,0),
+    dep_49= ifelse(dep_id==49,1,0),
+    dep_50= ifelse(dep_id==50,1,0),
+    dep_51= ifelse(dep_id==51,1,0),
+    dep_52= ifelse(dep_id==52,1,0),
+    dep_53= ifelse(dep_id==53,1,0),
+    dep_54= ifelse(dep_id==54,1,0),
+    dep_55= ifelse(dep_id==55,1,0),
+    dep_56= ifelse(dep_id==56,1,0),
+    dep_57= ifelse(dep_id==57,1,0),
+    dep_58= ifelse(dep_id==58,1,0),
+    dep_59= ifelse(dep_id==59,1,0),
+    dep_60= ifelse(dep_id==60,1,0),
+    dep_61= ifelse(dep_id==61,1,0),
+    dep_62= ifelse(dep_id==62,1,0),
+    dep_63= ifelse(dep_id==63,1,0),
+    dep_64= ifelse(dep_id==64,1,0),
+    dep_65= ifelse(dep_id==65,1,0),
+    dep_66= ifelse(dep_id==66,1,0),
+    dep_67= ifelse(dep_id==67,1,0),
+    dep_68= ifelse(dep_id==68,1,0),
+    dep_69= ifelse(dep_id==69,1,0)
+    ) %>% 
+  group_by(triptype) %>% 
+  dplyr::summarise(
+    prob_1= sum(dep_1)/n(),
+    prob_2= sum(dep_2)/n(),
+    prob_3= sum(dep_3)/n(),
+    prob_4= sum(dep_4)/n(),
+    prob_5= sum(dep_5)/n(),
+    prob_6= sum(dep_6)/n(),
+    prob_7= sum(dep_7)/n(),
+    prob_8= sum(dep_8)/n(),
+    prob_9= sum(dep_9)/n(),
+    prob_10= sum(dep_10)/n(),
+    prob_11= sum(dep_11)/n(),
+    prob_12= sum(dep_12)/n(),
+    prob_13= sum(dep_13)/n(),
+    prob_14= sum(dep_14)/n(),
+    prob_15= sum(dep_15)/n(),
+    prob_16= sum(dep_16)/n(),
+    prob_17= sum(dep_17)/n(),
+    prob_18= sum(dep_18)/n(),
+    prob_19= sum(dep_19)/n(),
+    prob_20= sum(dep_20)/n(),
+    prob_21= sum(dep_21)/n(),
+    prob_22= sum(dep_22)/n(),
+    prob_23= sum(dep_23)/n(),
+    prob_24= sum(dep_24)/n(),
+    prob_25= sum(dep_25)/n(),
+    prob_26= sum(dep_26)/n(),
+    prob_27= sum(dep_27)/n(),
+    prob_28= sum(dep_28)/n(),
+    prob_29= sum(dep_29)/n(),
+    prob_30= sum(dep_30)/n(),
+    prob_31= sum(dep_31)/n(),
+    prob_32= sum(dep_32)/n(),
+    prob_33= sum(dep_33)/n(),
+    prob_34= sum(dep_34)/n(),
+    prob_35= sum(dep_35)/n(),
+    prob_36= sum(dep_36)/n(),
+    prob_37= sum(dep_37)/n(),
+    prob_38= sum(dep_38)/n(),
+    prob_39= sum(dep_39)/n(),
+    prob_40= sum(dep_40)/n(),
+    prob_41= sum(dep_41)/n(),
+    prob_42= sum(dep_42)/n(),
+    prob_43= sum(dep_43)/n(),
+    prob_44= sum(dep_44)/n(),
+    prob_45= sum(dep_45)/n(),
+    prob_46= sum(dep_46)/n(),
+    prob_47= sum(dep_47)/n(),
+    prob_48= sum(dep_48)/n(),
+    prob_49= sum(dep_49)/n(),
+    prob_50= sum(dep_50)/n(),
+    prob_51= sum(dep_51)/n(),
+    prob_52= sum(dep_52)/n(),
+    prob_53= sum(dep_53)/n(),
+    prob_54= sum(dep_54)/n(),
+    prob_55= sum(dep_55)/n(),
+    prob_56= sum(dep_56)/n(),
+    prob_57= sum(dep_57)/n(),
+    prob_58= sum(dep_58)/n(),
+    prob_59= sum(dep_59)/n(),
+    prob_60= sum(dep_60)/n(),
+    prob_61= sum(dep_61)/n(),
+    prob_62= sum(dep_62)/n(),
+    prob_63= sum(dep_63)/n(),
+    prob_64= sum(dep_64)/n(),
+    prob_65= sum(dep_65)/n(),
+    prob_66= sum(dep_66)/n(),
+    prob_67= sum(dep_67)/n(),
+    prob_68= sum(dep_68)/n(),
+    prob_69= sum(dep_69)/n()
+  ) %>% ungroup()
+
+
+walmart_data <- walmart_data %>% dplyr::select(-starts_with('dep_1'),-starts_with('dep_2'),-starts_with('dep_3'),-starts_with('dep_4'),
+                                               -starts_with('dep_5'),-starts_with('dep_6'),-starts_with('dep_7'),-starts_with('dep_8'),
+                                               -starts_with('dep_9'))
+```
+
+
+```{r}
+library(data.table)
+walmart_col <- walmart_data %>% dplyr::select(starts_with('prob'))
+colnames(walmart_col)
+
+walmart_dep <- walmart_data 
+
+walmart_table<- data.table(walmart_dep )
+walmart_table[, MAX2 := colnames(.SD)[max.col(.SD, ties.method="first")], .SDcols = c(  "prob_1", "prob_2", "prob_3", "prob_4", "prob_5", "prob_6", "prob_7", "prob_8", "prob_9", "prob_10", "prob_11", "prob_12", "prob_13", "prob_14", "prob_15", "prob_16", "prob_17", "prob_18", "prob_19", "prob_20", "prob_21", "prob_22", "prob_23", "prob_24", "prob_25", "prob_26", "prob_27", "prob_28", "prob_29", "prob_30", "prob_31", "prob_32", "prob_33", "prob_34", "prob_35", "prob_36", "prob_37", "prob_38", "prob_39", "prob_40", "prob_41", "prob_42", "prob_43", "prob_44", "prob_45", "prob_46", "prob_47", "prob_48", "prob_49", "prob_50", "prob_51", "prob_52", "prob_53", "prob_54", "prob_55", "prob_56", "prob_57", "prob_58", "prob_59", "prob_60", "prob_61", "prob_62", "prob_63", "prob_64", "prob_65", "prob_66", "prob_67", "prob_68", "prob_69")]
+
+
+walmart_max <- data.frame(walmart_table)
+walmart_max$MAX2 <- as.numeric(substr(walmart_max$MAX2,6,7))
+
+
+```
+
+
+```{r}
+res<-cor(walmart_max)
+
+library(corrplot)
+corrplot(res, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+
+```
+
+
+```{r}
+library(psych)
+plot(hclust(dist(res)))
+
+
+clusti <- hclust(dist(res))
+
+grupo10 <- cutree(clusti , h = 2)
+cluster_walmart10 <- data.frame(grupo10)
+cluster_walmart10 <- tibble::rownames_to_column(cluster_walmart10, "nom_col")
+cluster_walmart10$dep_id <- substr(cluster_walmart10$nom_col,6, 7)
+cluster_walmart10 <-cluster_walmart10 %>% dplyr::select(grupo10, dep_id)
+cluster_walmart10$dep_id <- as.numeric(cluster_walmart10$dep_id )
+
+
+grupo3 <- cutree(clusti , h = 3)
+cluster_walmart3 <- data.frame(grupo3)
+cluster_walmart3 <- tibble::rownames_to_column(cluster_walmart3, "nom_col")
+cluster_walmart3$dep_id <- substr(cluster_walmart3$nom_col,6, 7)
+cluster_walmart3 <-cluster_walmart3 %>% dplyr::select(grupo3, dep_id)
+cluster_walmart3$dep_id <- as.numeric(cluster_walmart3$dep_id )
+
+grupo5 <- cutree(clusti , h = 4)
+cluster_walmart5 <- data.frame(grupo5)
+cluster_walmart5 <- tibble::rownames_to_column(cluster_walmart5, "nom_col")
+cluster_walmart5$dep_id <- substr(cluster_walmart5$nom_col,6, 7)
+cluster_walmart5 <-cluster_walmart5 %>% dplyr::select(grupo5, dep_id)
+cluster_walmart5$dep_id <- as.numeric(cluster_walmart5$dep_id )
+
+walmart_grupos <- cluster_walmart10 %>% dplyr::inner_join(cluster_walmart3) %>% 
+  dplyr::inner_join(cluster_walmart5)
+
+write.csv(walmart_grupos, "./../data/walmart_grupos.csv")
+
+
+mas_info_dep <- walmart_grupos %>% inner_join(info_dep, by="dep_id")
+
+write.csv(mas_info_dep, "./../data/mas_info_dep.csv")
+```
+
+######## AYUDA R
+
+```{r}
+list_dep <- list(unique(walmart_data$departmentdescription))
+tam <- length(list_dep[[1]])
+library(stringr)
+for (i in 1:tam){
+  dep_nom <- str_c("departmentdescription == '", list_dep[[1]][i], "' ~ ", i)
+  print(dep_nom)
+} 
+
+
+list_dep <- list(unique(walmart_data$triptype))
+tam <- length(list_dep[[1]])
+for (i in 1:tam){
+  dep_nom <- str_c("trip_", list_dep[[1]][i], "= ifelse(triptype==", list_dep[[1]][i], ",1,0)")
+  print(dep_nom)
+} 
+
+
+for (i in 1:tam){
+  dep_nom <- str_c("prob_", list_dep[[1]][i], "= sum(trip_", list_dep[[1]][i], ")/n()")
+  print(dep_nom)
+} 
+
+list_dep <- list(colnames(walmart_col))
+tam <- length(list_dep[[1]])
+for (i in 1:tam){
+  dep_nom <- str_c(list_dep[[1]][i])
+  print(dep_nom)
+} 
+
+list_dep <- list(unique(walmart_data$dep_id))
+tam <- length(list_dep[[1]])
+for (i in 1:tam){
+  dep_nom <- str_c("dep_", list_dep[[1]][i], "= ifelse(dep_id==", list_dep[[1]][i], ",1,0)")
+  print(dep_nom)
+} 
+
+for (i in 1:tam){
+  dep_nom <- str_c("prob_", list_dep[[1]][i], "= sum(dep_", list_dep[[1]][i], ")/n()")
+  print(dep_nom)
+} 
+
+list_dep <- list(colnames(walmart_col))
+tam <- length(list_dep[[1]])
+for (i in 1:tam){
+  dep_nom <- str_c(list_dep[[1]][i])
+  print(dep_nom)
+} 
+
+
+```
+
