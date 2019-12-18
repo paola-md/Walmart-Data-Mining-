@@ -1,0 +1,9 @@
+# Comprensión del negocio
+
+## Antecedentes
+
+## Determinación del objetivo
+ 
+## Determinación de criterio de éxito (i.e. superar benchmark de modelos que utilizan datos sin preprocesar)
+
+## Plan del proyecto

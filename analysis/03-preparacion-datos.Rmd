@@ -1,0 +1,8 @@
+# Preparación de los datos 
+
+## Selección e integración de datos
+
+## Limpieza de datos
+
+## Ingeniería de características
+
