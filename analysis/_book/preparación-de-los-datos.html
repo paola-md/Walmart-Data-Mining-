@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Preparación de los datos | Proyecto Walmart</title>
-  <meta name="description" content="El objetivo de libro es describir el proceso de CRISP." />
+  <meta name="description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Preparación de los datos | Proyecto Walmart" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="El objetivo de libro es describir el proceso de CRISP." />
+  <meta property="og:description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 4 Preparación de los datos | Proyecto Walmart" />
   
-  <meta name="twitter:description" content="El objetivo de libro es describir el proceso de CRISP." />
+  <meta name="twitter:description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   
 
 <meta name="author" content="Beto, Cesar, Luis y Paola" />
@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html"><i class="fa fa-check"></i><b>2</b> Comprensión del negocio</a><ul>
 <li class="chapter" data-level="2.1" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html#antecedentes"><i class="fa fa-check"></i><b>2.1</b> Antecedentes</a></li>
 <li class="chapter" data-level="2.2" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html#determinación-del-objetivo"><i class="fa fa-check"></i><b>2.2</b> Determinación del objetivo</a></li>
-<li class="chapter" data-level="2.3" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html#determinación-de-criterio-de-éxito-i.e.superar-benchmark-de-modelos-que-utilizan-datos-sin-preprocesar"><i class="fa fa-check"></i><b>2.3</b> Determinación de criterio de éxito (i.e. superar benchmark de modelos que utilizan datos sin preprocesar)</a></li>
+<li class="chapter" data-level="2.3" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html#determinación-de-criterio-de-éxito"><i class="fa fa-check"></i><b>2.3</b> Determinación de criterio de éxito</a></li>
 <li class="chapter" data-level="2.4" data-path="comprensión-del-negocio.html"><a href="comprensión-del-negocio.html#plan-del-proyecto"><i class="fa fa-check"></i><b>2.4</b> Plan del proyecto</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html"><i class="fa fa-check"></i><b>3</b> Comprensión de los datos</a><ul>
@@ -147,9 +147,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html"><i class="fa fa-check"></i><b>4</b> Preparación de los datos</a><ul>
-<li class="chapter" data-level="4.1" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#selección-e-integración-de-datos"><i class="fa fa-check"></i><b>4.1</b> Selección e integración de datos</a></li>
-<li class="chapter" data-level="4.2" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#limpieza-de-datos"><i class="fa fa-check"></i><b>4.2</b> Limpieza de datos</a></li>
-<li class="chapter" data-level="4.3" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#ingeniería-de-características"><i class="fa fa-check"></i><b>4.3</b> Ingeniería de características</a></li>
+<li class="chapter" data-level="4.1" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#selección-e-integración-de-datos"><i class="fa fa-check"></i><b>4.1</b> 1. Selección e integración de datos</a></li>
+<li class="chapter" data-level="4.2" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#limpieza-de-datos"><i class="fa fa-check"></i><b>4.2</b> 2. Limpieza de datos</a></li>
+<li class="chapter" data-level="4.3" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#ingeniería-de-características"><i class="fa fa-check"></i><b>4.3</b> 3. Ingeniería de características</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -174,14 +174,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="preparación-de-los-datos" class="section level1">
 <h1><span class="header-section-number">Chapter 4</span> Preparación de los datos</h1>
+<p>Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:</p>
+<ul>
+<li><strong>Selección e integración de datos</strong>,</li>
+<li><strong>Limpieza de datos</strong>,</li>
+<li><strong>Ingeniería de características</strong>.</li>
+</ul>
+<p>A continuación se describirá a mayor detalle cada uno de los puntos referidos. El detalle de la implementación de tales procesos se puede ver a través del archivo <strong>DataPreparation.R</strong>.</p>
 <div id="selección-e-integración-de-datos" class="section level2">
-<h2><span class="header-section-number">4.1</span> Selección e integración de datos</h2>
+<h2><span class="header-section-number">4.1</span> 1. Selección e integración de datos</h2>
+<p>Para esta etapa se debe destacar que, como fue expuesto en la sección del análisis exploratorio de datos, la base de datos de Walmart provee información de los viajes de los clientes en una manera desagregada conforme a las visitas de tales individuos a las tiendas, en función de cada uno de los artículos que se compraron en una visita. Es decir, para cada visita de un cliente pueden existir múltiples reglones, los cuales refieren a los artículos que se adquirieron o devolvieron en dicho evento.</p>
+<p>Desde el punto de vista del funcionamiento de los modelos de aprendizaje de máquina, esto constituye una limitante puesto que, en general, tales realizan tareas bajo la idea de que las unidades observacionales en estudio, en este caso las visitas de los clientes a la tienda, aparecen de manera única en las tablas que guardan la información correspondiente.</p>
+<p>Es así que la primera decisión fue transformar la información a una tabla en donde se agruparan las visitas de los clientes (ver sección de ingeniería de características para mayor detalle).</p>
 </div>
 <div id="limpieza-de-datos" class="section level2">
-<h2><span class="header-section-number">4.2</span> Limpieza de datos</h2>
+<h2><span class="header-section-number">4.2</span> 2. Limpieza de datos</h2>
+<p>En complemento se llevaron a cabo las siguientes acciones de limpieza sobre los datos aportados por Walmart:</p>
+<ul>
+<li>Sobre los campos que contienen información tipo texto, se aplicó una transformación que convierte todo a minúsculas.</li>
+<li>Se realizó la imputación de valores cero sobre los campos donde existe información sobre las variables <em>Upc</em> y <em>FinelineNumber</em>.</li>
+</ul>
 </div>
 <div id="ingeniería-de-características" class="section level2">
-<h2><span class="header-section-number">4.3</span> Ingeniería de características</h2>
+<h2><span class="header-section-number">4.3</span> 3. Ingeniería de características</h2>
+<p>Sobre la base de datos en comento se creó un conjunto de nuevas variables con el propósito de nutrir con mayor elementos de información al modelo que se busca implementar. Entre tales, se encuentran:</p>
+<ul>
+<li>En primera, se identificó cuales fueron los artículos que se involucraron en la transacción de un cliente (usando el identificador de la misma),</li>
+<li>Posteriormente, se calculo la proporción de cada articulo que representan respecto al volumen de aquellos involucrados en la transacción (tanto de aquellos adquiridos como devueltos),</li>
+<li>Usando la información anterior, se consolida una nueva base de datos con la información de cada visita de un cliente a través de un renglón en donde se indica que proporción tuvo cada uno de los artículos que se vieron involucrados el evento.</li>
+</ul>
+<p>Adicionalmente, se construyeron nuevas características:</p>
+<ul>
+<li>A través de una nueva variable (<em>obj_abs</em>) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.</li>
+<li>La variable <em>num_obj</em> refleja el valor absoluto de la cantidad total de objetos que se involucraron en la transacción,</li>
+<li>Se creó una variable indicadora(<em>prod_miss</em>) que nos dice si en la base original de Walmart se encontraba ausente el campo <em>Upc</em>.</li>
+<li>Además, no se consideraron las columnas <em>Weekday</em>, <em>Upc</em> y <em>visitnumber</em></li>
+</ul>
+<p>Por otra parte, también se llevaron a cabo las siguientes acciones:</p>
+<ul>
+<li>Se creó una variable (<em>weekend</em>) que refleja si la transacción de un cliente se llevó a cabo o no en un fin de semana,</li>
+<li>En adición, se generó una variable (<em>day</em>) que codifica a manera de categorías numéricas el día de la semana (<em>Monday</em>=1, <em>Tuesday</em>=2, …, <em>Sunday</em>=7),</li>
+<li>Análogamente, se construyó una variable numérica (<em>departmentdescription</em>) que codifica con categorías numéricas a los diferentes departamentos a los cuales pertenencen los artículos de la tienda.</li>
+<li>En lo tocante a la devolución de artículos, se crearon dos nuevas variables a) <em>devol</em> que indica si en la transacción existió un evento de devolución de artículos, y b) <em>porc_devol</em> que refleja la proporción de artículos devueltos con respecto a aquellos que se involucraron en la transacción de un cliente,</li>
+</ul>
 
 </div>
 </div>

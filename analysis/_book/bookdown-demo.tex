@@ -158,7 +158,7 @@
 \hypertarget{breve-descripciuxf3n-del-proyecto}{%
 \chapter{Breve descripción del proyecto}\label{breve-descripciuxf3n-del-proyecto}}
 
-Walmart uses both art and science to continually make progress on their core mission of better understanding and serving their customers. One way Walmart is able to improve customers' shopping experiences is by segmenting their store visits into different trip types.
+El presente trabajo busca explorar un conjunto de datos de los clientes de Walmart, a través de técnicas de análisis de datos y aprendizaje de máquina, con el objeto de agrupar los tipos de visitas que hacen los clientes en torno a una serie de categorías desarrollas por la empresa de manera interna, empleando la metodología CRIPS-DM.
 
 \hypertarget{comprensiuxf3n-del-negocio}{%
 \chapter{Comprensión del negocio}\label{comprensiuxf3n-del-negocio}}
@@ -166,14 +166,48 @@ Walmart uses both art and science to continually make progress on their core mis
 \hypertarget{antecedentes}{%
 \section{Antecedentes}\label{antecedentes}}
 
+Uno de los mayores intereses de las cadenas comerciales es conocer el comportamiento de sus clientes con el objeto de poder implementar estrategias de venta acordes a los diferentes necesidades existentes en el público.
+
+En este sentido, un enfoque que puede ser de utilidad es segmentar las visitas que los clientes efectúan en los establecimientos en diferentes tipos de viajes; ello significa determinar un conjunto categorías que reflejen los motivos que se encuentran detrás de una visita a un establecimiento. Para tal efecto, se puede echar mano de la información histórica que se tenga sobre el cliente, en términos de 1) los datos personales de este (por ejemplo, su información socio-económica) y 2) las transacciones de artículos que este haya realizado (tanto para adquirir artículos como para devolverlos por algún motivo); de manera que sea posible delinear un patrón de comportamiento que permita extraer elementos de valor para personalizar experiencias de comprar acordes a la realidad del mercado.
+
+A manera de ejemplo, se puede pensar por ejemplo que existen diferencias entre los clientes que hacen una visita rápida a un establecimiento para comprar dulces, que aquellos que surten sus alacenas para consumo de víveres en la de semana.
+
+Como parte de este interés, Walmart, la cual es una cadena comercial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, ha desarrollado una metodología a nivel interno que le permite agrupar en torno a 38 categorías a las diferentes visitas que realizan sus clientes, en función de los artículos que los clientes adquieren.
+
+En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes\footnote{Véase \url{https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/overview}}, que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela.
+
+Es así que la idea de este proyecto es analizar los datos aportados por Walmart para proponer un enfoque que permita recrear la categorización hecha por esta empresa, basándose en métodos de aprendizaje de máquina a través de la metodología CRIPS-DM, mediante los conceptos vistos en el curso de Minería y Análisis de Datos.
+
 \hypertarget{determinaciuxf3n-del-objetivo}{%
 \section{Determinación del objetivo}\label{determinaciuxf3n-del-objetivo}}
 
-\hypertarget{determinaciuxf3n-de-criterio-de-uxe9xito-i.e.superar-benchmark-de-modelos-que-utilizan-datos-sin-preprocesar}{%
-\section{Determinación de criterio de éxito (i.e.~superar benchmark de modelos que utilizan datos sin preprocesar)}\label{determinaciuxf3n-de-criterio-de-uxe9xito-i.e.superar-benchmark-de-modelos-que-utilizan-datos-sin-preprocesar}}
+El objetivo de este proyecto proponer una metodología para resolver el problema de clasificación de los clientes de Walmart, presentes en las bases de datos que dicha empresa compartió a Kaggle en el año 2015, a partir del análisis de datos y métodos de aprendizaje de máquina.
+
+\hypertarget{determinaciuxf3n-de-criterio-de-uxe9xito}{%
+\section{Determinación de criterio de éxito}\label{determinaciuxf3n-de-criterio-de-uxe9xito}}
+
+Como criterio para determinar el cumplimiento del objetivo del proyecto, se estableció que el modelo propuesto tenga un mejor desempeño que el bechmark de la referida competencia de Kaggle.
 
 \hypertarget{plan-del-proyecto}{%
 \section{Plan del proyecto}\label{plan-del-proyecto}}
+
+En línea con la exposición previa, a continuación se presenta el plan de proyecto para lograr el objetivo de este proyecto, mismo que se llevará a cabo a través de las fases que se describen, en alto nivel, a continuación:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Comprensión de los datos de Walmart:} conformada por las etapas de 1) extracción de la información aportada por Walmart, en su estado puro (es decir, datos crudos, sin realizar ningún tratamiento de la información); y 2) el estudio de las variables que componen el conjunto de datos de Walmart, junto con un proceso de exploración de la información contenida en ellos, en términos de una variable, pares de variables o múltiples combinaciones de ellas.
+\item
+  \textbf{Preparación de los datos:} consistente en el proceso de selección e integración de los datos que serán útiles para plantear un metodología de clasificación de los clientes de Walmart, así limpieza de los datos (consideran la imputación en el caso de variables con información no disponible o ausente por algún motivo), y la ingeniería de características pertinente para mejorar el desempeño del enfoque propuesto.
+\item
+  \textbf{Modelado:} corresponde al diseño de un conjunto de modelos, basados en aprendizaje de máquina, encaminados a resolver el problema de clasificación de los viajes de los clientes de Walmart, así como los criterios considerados para seleccionar el modelo con el mejor desempeño y el ajuste realizado para calibrar sus hiper-parámetros.
+\item
+  \textbf{Evaluación:} se refiere a la etapa en donde se realiza la evaluación del modelo óptimo seleccionado como óptimo en la etapa previa, su posterior re-entrenamiento tras conjuntar los datos de entrenamiento y prueba con hiper-parámetros optimizados así como el reporte de la posición final en el tablero de Kaggle del desempeño logrado.
+\item
+  \textbf{Implantación:} relativo al desarrollo de web service en flask para predecir resultados con el modelo final a partir de nuevos datos, así como el reporte ejecutivo que relata los principales hallazgos e hitos del proyecto.
+\end{itemize}
+
+Para mejor referencia, se provee un repositorio en Github \url{https://github.com/paola-md/Walmart-Data-Mining-} que conjunta los archivos de trabajo realizados con motivo del proyecto en cuestión, particularmente la totalidad de scripts en Bash, R y Python, así como las instrucciones a través de las cuales se podrá replicar el contenido del proyecto.
 
 \hypertarget{comprensiuxf3n-de-los-datos}{%
 \chapter{Comprensión de los datos}\label{comprensiuxf3n-de-los-datos}}
@@ -196,14 +230,84 @@ Walmart uses both art and science to continually make progress on their core mis
 \hypertarget{preparaciuxf3n-de-los-datos}{%
 \chapter{Preparación de los datos}\label{preparaciuxf3n-de-los-datos}}
 
+Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Selección e integración de datos},
+\item
+  \textbf{Limpieza de datos},
+\item
+  \textbf{Ingeniería de características}.
+\end{itemize}
+
+A continuación se describirá a mayor detalle cada uno de los puntos referidos. El detalle de la implementación de tales procesos se puede ver a través del archivo \textbf{DataPreparation.R}.
+
 \hypertarget{selecciuxf3n-e-integraciuxf3n-de-datos}{%
-\section{Selección e integración de datos}\label{selecciuxf3n-e-integraciuxf3n-de-datos}}
+\section{1. Selección e integración de datos}\label{selecciuxf3n-e-integraciuxf3n-de-datos}}
+
+Para esta etapa se debe destacar que, como fue expuesto en la sección del análisis exploratorio de datos, la base de datos de Walmart provee información de los viajes de los clientes en una manera desagregada conforme a las visitas de tales individuos a las tiendas, en función de cada uno de los artículos que se compraron en una visita. Es decir, para cada visita de un cliente pueden existir múltiples reglones, los cuales refieren a los artículos que se adquirieron o devolvieron en dicho evento.
+
+Desde el punto de vista del funcionamiento de los modelos de aprendizaje de máquina, esto constituye una limitante puesto que, en general, tales realizan tareas bajo la idea de que las unidades observacionales en estudio, en este caso las visitas de los clientes a la tienda, aparecen de manera única en las tablas que guardan la información correspondiente.
+
+Es así que la primera decisión fue transformar la información a una tabla en donde se agruparan las visitas de los clientes (ver sección de ingeniería de características para mayor detalle).
 
 \hypertarget{limpieza-de-datos}{%
-\section{Limpieza de datos}\label{limpieza-de-datos}}
+\section{2. Limpieza de datos}\label{limpieza-de-datos}}
+
+En complemento se llevaron a cabo las siguientes acciones de limpieza sobre los datos aportados por Walmart:
+
+\begin{itemize}
+\tightlist
+\item
+  Sobre los campos que contienen información tipo texto, se aplicó una transformación que convierte todo a minúsculas.
+\item
+  Se realizó la imputación de valores cero sobre los campos donde existe información sobre las variables \emph{Upc} y \emph{FinelineNumber}.
+\end{itemize}
 
 \hypertarget{ingenieruxeda-de-caracteruxedsticas}{%
-\section{Ingeniería de características}\label{ingenieruxeda-de-caracteruxedsticas}}
+\section{3. Ingeniería de características}\label{ingenieruxeda-de-caracteruxedsticas}}
+
+Sobre la base de datos en comento se creó un conjunto de nuevas variables con el propósito de nutrir con mayor elementos de información al modelo que se busca implementar. Entre tales, se encuentran:
+
+\begin{itemize}
+\tightlist
+\item
+  En primera, se identificó cuales fueron los artículos que se involucraron en la transacción de un cliente (usando el identificador de la misma),
+\item
+  Posteriormente, se calculo la proporción de cada articulo que representan respecto al volumen de aquellos involucrados en la transacción (tanto de aquellos adquiridos como devueltos),
+\item
+  Usando la información anterior, se consolida una nueva base de datos con la información de cada visita de un cliente a través de un renglón en donde se indica que proporción tuvo cada uno de los artículos que se vieron involucrados el evento.
+\end{itemize}
+
+Adicionalmente, se construyeron nuevas características:
+
+\begin{itemize}
+\tightlist
+\item
+  A través de una nueva variable (\emph{obj\_abs}) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.
+\item
+  La variable \emph{num\_obj} refleja el valor absoluto de la cantidad total de objetos que se involucraron en la transacción,
+\item
+  Se creó una variable indicadora(\emph{prod\_miss}) que nos dice si en la base original de Walmart se encontraba ausente el campo \emph{Upc}.
+\item
+  Además, no se consideraron las columnas \emph{Weekday}, \emph{Upc} y \emph{visitnumber}
+\end{itemize}
+
+Por otra parte, también se llevaron a cabo las siguientes acciones:
+
+\begin{itemize}
+\tightlist
+\item
+  Se creó una variable (\emph{weekend}) que refleja si la transacción de un cliente se llevó a cabo o no en un fin de semana,
+\item
+  En adición, se generó una variable (\emph{day}) que codifica a manera de categorías numéricas el día de la semana (\emph{Monday}=1, \emph{Tuesday}=2, \ldots{}, \emph{Sunday}=7),
+\item
+  Análogamente, se construyó una variable numérica (\emph{departmentdescription}) que codifica con categorías numéricas a los diferentes departamentos a los cuales pertenencen los artículos de la tienda.
+\item
+  En lo tocante a la devolución de artículos, se crearon dos nuevas variables a) \emph{devol} que indica si en la transacción existió un evento de devolución de artículos, y b) \emph{porc\_devol} que refleja la proporción de artículos devueltos con respecto a aquellos que se involucraron en la transacción de un cliente,
+\end{itemize}
 
 \bibliography{book.bib,packages.bib}
 

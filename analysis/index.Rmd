@@ -9,7 +9,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
-description: "El objetivo de libro es describir el proceso de CRISP."
+description: "El objetivo de libro es describir el proceso de CRISP-DM."
 ---
 
 ```{r eval=FALSE}
@@ -43,4 +43,4 @@ knitr::write_bib(c(
 
 # Breve descripción del proyecto 
 
-Walmart uses both art and science to continually make progress on their core mission of better understanding and serving their customers. One way Walmart is able to improve customers' shopping experiences is by segmenting their store visits into different trip types. 
+El presente trabajo busca explorar un conjunto de datos de los clientes de Walmart, a través de técnicas de análisis de datos y aprendizaje de máquina, con el objeto de agrupar los tipos de visitas que hacen los clientes en torno a una serie de categorías desarrollas por la empresa de manera interna, empleando la metodología CRIPS-DM.
