@@ -2,8 +2,11 @@
 
 #!/bin/bash
 
-# Descarga de datos de Kaggle usando cookies de un cierto usuario
-wget -x --load-cookies cookies.txt "https://www.kaggle.com/c/4654/download-all"
+# Descarga de datos de Kaggle en la carpeta data (usando cookies de un cierto usuario)
+wget -x --directory-prefix=../../data --load-cookies cookies.txt "https://www.kaggle.com/c/4654/download-all"
+
+# Nos cambiamos de directorio
+cd ../../data
 
 # Descomprimimos archivos de Walmart
 unzip www.kaggle.com/c/4654/download-all
