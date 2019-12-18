@@ -174,7 +174,7 @@ A manera de ejemplo, se puede pensar que existen diferencias entre los clientes 
 
 Como parte de este interés, Walmart, la cual es una cadena comercial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, ha desarrollado una metodología a nivel interno que le permite agrupar en torno a 38 categorías a las diferentes visitas que realizan sus clientes, en función de los artículos que los clientes adquieren.
 
-En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes\footnote{Véase \url{https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/overview}}, que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela.
+En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes\footnote{Véase \url{https://github.com/Kaggle/kaggle-api}}, que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela.
 
 Es así que la idea de este proyecto es analizar los datos aportados por Walmart para proponer un enfoque que permita recrear la categorización hecha por esta empresa, basándose en métodos de aprendizaje de máquina a través de la metodología CRIPS-DM, mediante los conceptos vistos en el curso de Minería y Análisis de Datos.
 
@@ -215,8 +215,83 @@ Para mejor referencia, se provee un repositorio en Github \url{https://github.co
 \hypertarget{recolecciuxf3n-de-datos}{%
 \section{Recolección de datos}\label{recolecciuxf3n-de-datos}}
 
+De acuerdo a la documentación disponible\footnote{Véase \url{https://github.com/Kaggle/kaggle-api}}, uno de los requisitos necesarios para descargar los datos de visitas de los clientes de Walmart, es aportar la credenciales de un usuario registrado en el Kaggle.
+
+En este caso, para facilitar este proceso, se implementó un programa en Bash, denominado download\_extract\_data.sh, el cual aprovecha la herramienta Wget de UNIX, para realizar la descarga de los datos del sitio electrónico en comento, recibiendo un archivo de configuración con las credenciales de autenticación de un cierto usuario (archivo cookies.txt).
+
+A su vez, se creó un script en R (wrinting\_feather.R, presente en la carpeta /data) que convierte los archivos .csv a formato .feather.
+
+Como resultado, dentro de la carpeta /data se obtiene los siguientes archivo en formato .csv y .feather:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{test.csv:} el cual contiene los datos del conjunto de entrenamiento,
+\item
+  \textbf{train.csv:} relativo a los datos de entrenamiento, y finalmente,
+\item
+  \textbf{sample\_submission.csv:} es un ejemplo del formato en que se deben aportar los datos al sistema de Kaggle para la evaluación del desempeño del modelo de clasificación propuesto para el problema que nos ocupa.
+\item
+  \textbf{test.feather},
+\item
+  \textbf{train.feather}.
+\end{itemize}
+
+** Instrucciones para descarga de datos**
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Debemos darle permisos de ejecución al script de Bash que se encuentra en la carpeta \emph{/build/comprension\_datos} desde la terminal:
+\end{enumerate}
+
+\begin{verbatim}
+chmod +x download_extract_data.sh
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Posteriormente ejecutamos dicho programa:
+\end{enumerate}
+
+\begin{verbatim}
+./download_extract_data.sh
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Como se ha mencionado, el resultado de la ejecución de este script es la descarga de tres archivos dentro de la carpeta /data (train.csv, test.csv y sample\_submission.csv).
+\end{enumerate}
+
 \hypertarget{anuxe1lisis-exploratorio-de-datos}{%
 \section{Análisis exploratorio de datos}\label{anuxe1lisis-exploratorio-de-datos}}
+
+De acuerdo a la documentación de Kaggle, la información de Walmart se proporciona en términos de las siguientes 7 variables:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{TripType:} Variable objetivo. Son 38 diferentes categorias,
+\item
+  \textbf{Visit Number:} código identificardor de la visita de un usuario al establecimiento (o simplemente, ``viaje''),
+\item
+  \textbf{Weekday:} Día de la semana en que ocurrió el viaje del cliente,
+\item
+  \textbf{UPC} corresponde al número de barras de cada producto (es decir, un código identidicador del mismo),
+\item
+  \textbf{ScanCount:} relativo al número de productos involucrados en la transacción del cliente. Cabe descatar que si se trada de una devolución, se representa como un número negativo
+\item
+  \textbf{Department Description:} corresponde a una descripción de la categoria a la que pertenece el producto involucrado en la transacción del cliente.
+\item
+  \textbf{Fineline Number:} relativo a un código identificador de 5,196 productos.
+\end{itemize}
 
 \hypertarget{univariado}{%
 \subsection{Univariado}\label{univariado}}
