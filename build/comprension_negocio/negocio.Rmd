@@ -2,10 +2,18 @@
 
 ## Antecedentes
 
-Pendiente: desarrollo
+Uno de los mayores intereses de las cadenas comerciales es conocer el comportamiento de sus clientes con el objeto de poder implementar estrategias de venta acordes a los diferentes necesidades existentes en el público. 
+
+En este sentido, un enfoque que puede ser de utilidad es segmentar las visitas que los clientes efectán en los establecimientos en diferentes tipos de viajes; ello significa determinar un conjunto categorías que reflejen motivos que se encuentran detrás de una visita a un establecimiento. Para ello, se puede echar mano de la información histórica que un establecimiento tenga sobre el cliente, en términos de 1) los datos personales de cliente (por ejemplo, su información socio-económica) y 2) las transacciones de artículos que este haya realizado con el establecimiento (tanto para adquirir artículos como para devolverlos por algún motivo); de manera que sea posible delinear un patrón de comportamiento de los que se puedan extraer elementos de valor para personalizar experiencias de comprar acordes a la realidad del mercado.
+
+Como parte de este interés, Walmart, la cual es una cadena cormecial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, hizo disponible a través de Kaggle un conjunto de datos de las visitas de sus clientes, los cuales han sido categorizados de manera interna.
+
+
+
 
 ## Determinación del objetivo
 
+El objetivo de este proyecto
 
 
 ## Determinación del criterio de éxito
