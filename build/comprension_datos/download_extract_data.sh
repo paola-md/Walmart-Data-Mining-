@@ -19,3 +19,8 @@ rm -r www.kaggle.com
 rm test.csv.zip
 rm train.csv.zip
 rm sample_submission.csv.zip
+
+# Generamos archivos de datos en formato feather
+
+chmod +x writing_feather.R
+./writing_feather.R
