@@ -9,19 +9,3 @@
 ### Bivariado
 
 ### Multivariado
-
-
-```{r}
-#setwd("C:/Users/pmeji/Documents/Tesis/build/raw")
-#cemabe_centros<- read.csv("./CEMABE/TR_CENTROS.csv")
-```
-
-```{r}
-library(funModeling)
-describe(cemabe_centros)
-```
-
-```{r}
-data_integrity(cemabe_centros)
-```
-

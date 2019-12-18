@@ -1,8 +1,47 @@
 # Preparación de los datos 
 
-## Selección e integración de datos
+Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:
 
-## Limpieza de datos
+* **Selección e integración de datos**,
+* **Limpieza de datos**,
+* **Ingeniería de características**
 
-## Ingeniería de características
+A continuación se describirá a mayor detalle cada uno de los puntos referidos. El detalle de la implementación de tales procesos se puede ver a través del archivo **DataPreparation.R**.
 
+
+## 1. Selección e integración de datos
+
+Para esta etapa se debe destacar que, como fue expuesto en la sección del análisis exploratorio de datos (ver documento [Pendiente: añadir referencia cruzada]), la base de datos de Walmart provee información de los viajes de los clientes en una manera desagregada conforme a las visitas de tales individuos a las tiendas, en función de cada uno de los artículos que se compraron en una visita. Es decir, para cada visita de un cliente pueden existir múltiples reglones, los cuales refieren a los artículos que se adquirieron o devolvieron en dicho evento.
+
+Desde el punto de vista del funcionamiento de los modelos de aprendizaje de máquina, esto constituye una limitante puesto que, en general, tales realizan tareas bajo la idea de que las unidades observacionales en estudio, en este caso las visitas de los clientes a la tienda, aparecen de manera única en las tablas que guardan la información correspondiente.
+
+Es así que la primera decisión fue transformar la información a una tabla en donde se agruparan las visitas de los clientes, bajo los siguientes principios:
+
+* En primera, se identificó cuales fueron los artículos que se involucraron en la trasacción de un cliente (usando el identificador de la misma),
+* Posteriormente, se calcula la proporción de cada articulo que represetan respecto al volumen de aquellos involucrados en la transacción (tanto de aquellos adquiridos como devueltos),
+* Usando la información anterior, se consolida una nueva base de datos con la información de cada visita de un cliente a través de un renglón en donde se indica que proporción tuvo cada uno de los artículos que se vieron involucrados el evento.
+
+* Adicionalmente, para dicha base de datos se creó un conjunto de nuevas variables con el propósito de nutrir con mayor elementos de información al modelo que se busca implementar. Entre tales, se encuentran:
+  
+  * La cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.
+  * El valor absoluto de la cantidad total de objetos que se involucraron en la transacción,
+  * hola
+  * hola
+  
+[Pendiente: alinear con modelo de Paola]
+
+## 2. Limpieza de datos
+
+[Pendiente: alinear con modelo de Paola]
+
+* Sobre los campos que contienen información tipo texto, se aplicó una transformación que convierte todo a minúsculas.
+* Se realizó la imputación de valores cero sobre [Pendiente: especificar]
+
+
+## 3. Ingeniería de características
+
+[Pendiente: alinear con modelo de Paola]
+
+## 4. Conclusiones
+
+[Pendiente: alinear con modelo de Paola]
