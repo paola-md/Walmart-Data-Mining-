@@ -450,6 +450,22 @@ sum_features_test <- function(data) {
     ) %>% ungroup()
 }
 
+dummy_days <- function(data){
+  df <- data %>% 
+    mutate(
+      day1 = ifelse(day==1,1,0),
+      day2 = ifelse(day==2,1,0),
+      day3 = ifelse(day==3,1,0),
+      day4 = ifelse(day==4,1,0),
+      day5 = ifelse(day==5,1,0),
+      day6 = ifelse(day==6,1,0 ), 
+      day7 = ifelse(day==7,1,0 )
+      )
+  df$day <- NULL
+  return(df)
+}
+
+# Creamos los nuevos conjuntos de datos que reflejan la ingenieria de caracteristicas
 walmart_train_trip <- walmart_train %>% 
   format_data %>% 
   fill_na() %>% 
@@ -462,8 +478,22 @@ walmart_test_trip <- walmart_test %>%
   create_features() %>%
   sum_features_test()
 
+walmart_train_trip_dummies <- walmart_train %>% 
+  format_data %>% 
+  fill_na() %>% 
+  create_features() %>%
+  sum_features() %>% dummy_days()
+
+walmart_test_trip_dummies <- walmart_test %>% 
+  format_data %>% 
+  fill_na() %>% 
+  create_features() %>%
+  sum_features_test() %>% dummy_days()
+
 #setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 # Escribimos los datos trasnformados en el directorio data
 write.csv(walmart_train_trip, "../../data/walmart_train_trip.csv")
 write.csv(walmart_test_trip, "../../data/walmart_test_trip.csv")
+write.csv(walmart_train_trip_dummies, "../../data/walmart_train_trip_dummies.csv")
+write.csv(walmart_test_trip_dummies, "../../data/walmart_test_trip_dummies.csv")
