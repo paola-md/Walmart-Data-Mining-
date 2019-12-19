@@ -11,7 +11,7 @@ instalar <- function(paquete) {
 paquetes <- c('lubridate', 'magrittr', 'ggvis', 'dplyr', 'tidyr', 'readr', 'rvest',
               'ggplot2', 'stringr', 'ggthemes', 'googleVis', 'shiny', 'tibble', 'vcd', 'vcdExtra',
               'GGally', 'readODS', 'readxl', "RSQLite", "gridExtra", "GDAdata", "UsingR", "MASS", "ash",
-              "ggplot2movies", "effects", "likert", "waffle", "extrafont", "funModeling", "emojifont")
+              "ggplot2movies", "effects", "likert", "waffle", "extrafont", "funModeling")
 
 
 lapply(paquetes, instalar)
