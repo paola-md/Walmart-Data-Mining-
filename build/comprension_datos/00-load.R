@@ -1,2 +1,3 @@
 #Loads files
-walmart_data <- load()
+walmart_train<- load_train()
+walmart_test <- load_test()

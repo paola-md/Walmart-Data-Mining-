@@ -1,4 +1,4 @@
-  rm(list = ls())
+rm(list = ls())
 
 instalar <- function(paquete) {
   
@@ -11,7 +11,7 @@ instalar <- function(paquete) {
 paquetes <- c('lubridate', 'magrittr', 'ggvis', 'dplyr', 'tidyr', 'readr', 'rvest',
               'ggplot2', 'stringr', 'ggthemes', 'googleVis', 'shiny', 'tibble', 'vcd', 'vcdExtra',
               'GGally', 'readODS', 'readxl', "RSQLite", "gridExtra", "GDAdata", "UsingR", "MASS", "ash",
-              "ggplot2movies", "effects", "likert", "waffle", "extrafont", "funModeling")
+              "ggplot2movies", "effects", "likert", "waffle", "extrafont", "funModeling", "emojifont")
 
 
 lapply(paquetes, instalar)
@@ -21,30 +21,16 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 ########################################################
 # Carga
 
-load_train <- function(){
+load <- function(){
   if(!file.exists('walmart.rds')){
-    data <- read_csv("../../data/train.csv")
-    saveRDS(data, "../../data/walmart.rds")
+ 
+    data <- read_csv("./../data/train.csv")
+    saveRDS(data, "./../data/walmart.rds")
     print('walmart.rds se bajó y guardó\n')
   }
   else{
     warning('walmart.rds ya existe\n')
-    data <- readRDS("../../data/walmart.rds")
-  }
-  
-  return(data)
-}
-
-load_test <- function(){
-
-  if(!file.exists('walmart_test.rds')){
-    data <- read_csv("../../data/test.csv")
-    saveRDS(data, "../../data/walmart_test.rds")
-    print('walmart_test.rds se bajó y guardó\n')
-  }
-  else{
-    warning('walmart_test.rds ya existe\n')
-    data <- readRDS("../../data/walmart_test.rds")
+    data <- readRDS("walmart.rds")
   }
   
   return(data)
