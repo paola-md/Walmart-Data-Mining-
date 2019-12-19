@@ -1,0 +1,17 @@
+# HTTP Cookie File downloaded with cookies.txt by Genuinous @genuinous
+# This file can be used by wget, curl, aria2c and other standard compliant tools.
+# Usage Examples:
+#   1) wget -x --load-cookies cookies.txt "https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/data#"
+#   2) curl --cookie cookies.txt "https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/data#"
+#   3) aria2c --load-cookies cookies.txt "https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/data#"
+#
+www.kaggle.com	FALSE	/	TRUE	0	CSRF-TOKEN	CfDJ8LdUzqlsSWBPr4Ce3rb9VL8PmGiNXgRmmfBljl5phDOJvbGr-SPL2ouD8pMG6tvfwqNDFj7EvOiXu69m4ZjnQd0oJ45X29G6M9cfh7v57UvUJfhl5vJi1M-V4HRGB1eaMU1Kv1auaIyoCBKmJYg6Nfs
+www.kaggle.com	FALSE	/	FALSE	0	GCLB	CNqw1Ym0u52RvAE
+.kaggle.com	TRUE	/	FALSE	1639359484	_ga	GA1.2.1282344426.1576287454
+.kaggle.com	TRUE	/	FALSE	1576373884	_gid	GA1.2.34976556.1576287454
+.kaggle.com	TRUE	/	FALSE	1576287516	_gat_gtag_UA_12629138_1	1
+www.kaggle.com	FALSE	/	FALSE	1592046821	ka_sessionid	c4ca30b91522ad4c50a739dfee4876adc3f5519f
+www.kaggle.com	FALSE	/	TRUE	1578879484	.ASPXAUTH	69A215AD2A8C5FB7E1AC844E80C33D9EBED111E8DEF91FB964712FC5CA88B713F591D514BCE859F792D209EF7A62AF0450CCCB2BBB1E66630224A5276CDB997EB8D8B4F7AED4AC1EA15DD0322D289215F8EC905B
+www.kaggle.com	FALSE	/	FALSE	0	XSRF-TOKEN	CfDJ8LdUzqlsSWBPr4Ce3rb9VL-FK1SGAOZjVhHAQkZN8H1HD67ULz6kryuM8sOBQcEdOlt4OCGIM9VudaEr_Rs5Q7pbxovUMp-yskcmLqUKGpi4gUODvw3W5CkzUgKu5bTGBs9-5s3_JN6mnDGlLH1GdlNdyxOokd2pQqme4vAHPCldRi7WnW_lin7-GdKbvd7mGw
+www.kaggle.com	FALSE	/	FALSE	0	.AspNetCore.Mvc.CookieTempDataProvider	CfDJ8LdUzqlsSWBPr4Ce3rb9VL_tVcqMojwdTaFK0t2YceavLcOX-nuCpKGhMpC1MvlUQ1Yr4egLRZT6wHqREsqGPIlznsUtdJns5pfJFxKbnpiWW8YsNHVk9HlqI_boJzTTiRT-jMgFn-MwqWchoMS1QFU
+.kaggle.com	TRUE	/	FALSE	1576892289	intercom-session-koj6gxx6	K0JrdHh2VGQzOUhqcmZ2QStXRXFBbE5qMGxVb3dyOUJrQTlHMFVSby9OV3RaOHpqc0ZwdzZqczBKUExFRFpSbi0taFFXV043clNNZkRvTGpPWFJQWVRiQT09--e1cadd28f7a49722deebf70bf79290e9fa41d471

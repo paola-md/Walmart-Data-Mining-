@@ -1,0 +1,68 @@
+# Caso Walmart - Comprensión del Negocio
+
+
+**Profesor:** Juan Salvador Mármol Yahya
+
+**Fecha:** 20 de diciembre de 2019
+
+**Integrantes del equipo**
+
+| # | Alumno                   | Clave Única |
+|---|--------------------------|-------------|
+| 1 | Paola Mejía Domenzaín    | XXXXX      |
+| 2 | Luis Eugenio Rojón Jiménez | XXXXX      |
+| 3 | José Alberto Mandujano Montes  | XXXXX      |
+| 4 | César Zamora Martínez    | 190609      |
+
+## 1. Antecedentes
+
+Uno de los mayores intereses de las cadenas comerciales es conocer el comportamiento de sus clientes con el objeto de poder implementar estrategias de venta acordes a los diferentes necesidades existentes en el público. 
+
+En este sentido, un enfoque que puede ser de utilidad es segmentar las visitas que los clientes efectúan en los establecimientos en diferentes tipos de viajes; ello significa determinar un conjunto categorías que reflejen motivos que se encuentran detrás de una visita a un establecimiento. Para tal efecto, se puede echar mano de la información histórica que un establecimiento tenga sobre el cliente, en términos de 1) los datos personales de cliente (por ejemplo, su información socio-económica) y 2) las transacciones de artículos que este haya realizado con el establecimiento (tanto para adquirir artículos como para devolverlos por algún motivo); de manera que sea posible delinear un patrón de comportamiento de los que se puedan extraer elementos de valor para personalizar experiencias de comprar acordes a la realidad del mercado.
+
+A manera de ejemplo, se puede pensar por ejemplo que existen diferencias entre los clientes que hacen una visita rápida a un establecimiento para , que aquellos que surten sus alacenas para consumo de víveres en la de semana
+
+Como parte de este interés, Walmart, la cual es una cadena comercial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, ha desarrollado una metodología a nivel interno que le permite agrupar en torno a 38 categorías a las diferentes visitas que realizan sus clientes, en función de los artículos que los clientes adquieren.
+
+En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes[^1], que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela. 
+
+Es así que la idea de este proyecto es analizar los datos aportados por Walmart para proponer un enfoque que permita recrear la categorización hecha por esta empresa, basándose en métodos de aprendizaje de máquina a través de la metodología CRIPS-DM, mediante los conceptos vistos en el curso de Minería y Análisis de Datos.
+
+[^1]: Véase https://www.kaggle.com/c/walmart-recruiting-trip-type-classification/overview
+
+
+## 2. Determinación del objetivo
+
+El objetivo de este proyecto proponer una metodología para resolver el problema de clasificación de los clientes de Walmart, presentes en las bases de datos que dicha empresa compartió a Kaggle en el año 2015, a partir del análisis de datos y métodos de aprendizaje de máquina.
+
+## 3. Determinación del criterio de éxito
+
+Como criterio para determinar el cumplimiento del objetivo del proyecto, se estableció que el modelo propuesto tenga un mejor desempeño que los modelo que emplean datos sin realizar ningún pre-procesamiento de la información. Ello significa que la metodología del proyecto sea capaz de superar a [Pendiente: establecer cuáles serían estos modelos; i.e. se refiere a resultados que ya están en Kaggle? se refiere a que nosotros impongamos un baseline, digamos una regresión logística en problema de multi-clasificación?], donde la métrica asociada sea [Pendiente: establecer una métrica adecuada en función de los modelos a superar].
+
+Ello en consideración de que [Pendiente: desarrollo].
+
+## 4. Plan de proyecto
+
+En línea con la exposición previa, a continuación se presenta el plan de proyecto para lograr el objetivo de este proyecto, mismo que se llevará a cabo a través de las fases que se describen, en alto nivel, a continuación:
+
+* **Comprensión de los datos de Walmart:** conformada por las etapas de 1) extracción de la información aportada por Walmart, en su estado puro (es decir, datos crudos, sin realizar ningún tratamiento de la información); y 2) el estudio de las variables que componen el conjunto de datos de Walmart, junto con un proceso de exploración de la información contenida en ellos, en términos de una variable, pares de variables o múltiples combinaciones de ellas.
+* **Preparación de los datos:** consistente en el proceso de selección e integración de los datos que serán útiles para plantear un metodología de clasificación de los clientes de Walmart, así limpieza de los datos (consideran la imputación en el caso de variables con información no disponible o ausente por algún motivo), y la ingeniería de características pertinente para mejorar el desempeño del enfoque propuesto.
+* **Modelado:** corresponde al diseño de un conjunto de modelos, basados en aprendizaje de máquina, encaminados a resolver el problema de clasificación de los viajes de los clientes de Walmart, así como los criterios considerados para seleccionar el modelo con el mejor desempeño y el ajuste realizado para calibrar sus hiper-parámetros.
+* **Evaluación:** se refiere a la etapa en donde se realiza la evaluación del modelo óptimo seleccionado como óptimo en la etapa previa, su posterior re-entrenamiento tras conjuntar los datos de entrenamiento y prueba con hiper-parámetros optimizados así como el reporte de la posición final en el tablero de Kaggle del desempeño logrado.
+* **Implantación:** relativo al desarrollo de web service en flask para predecir resultados con el modelo final a partir de nuevos datos, así como el reporte ejecutivo que relata los principales hallazgos e hitos del proyecto.
+
+Para mejor referencia, se provee un repositorio en Github https://github.com/paola-md/Walmart-Data-Mining- que conjunta los archivos de trabajo realizados con motivo del proyecto en cuestión, particularmente la totalidad de scripts en Bash, R y Python, así como las instrucciones a través de las cuales se podrá replicar el contenido del proyecto.
+
+En este sentido, para mostrar el trabajo realizado se han desarrollo diferentes reportes reproducibles que describen los pasos abordados en cada una de las etapas previamente descritas, cuya ubicación dentro del referido repositorio de Github se resume a continuación:
+
+| # | Etapa | Documentos | Tipo de documento/lenguajes | Carpeta |
+|---|--------------------------|-------------------------------|-----------------------------|-------------|
+| 1 | Comprensión de los datos | Reporte "[Pendiente: nombre]" | Bash, R y Rmarkdown | [Pendiente] |
+| 2 | Preparación de los datos | Reporte "[Pendiente: nombre]" | [Pendiente] | [Pendiente] |
+| 3 | Modelado | Reporte "[Pendiente: nombre]" | Jupyter Notebook (Python)  | [Pendiente] |
+| 4 | Evaluación | [Pendiente] | [Pendiente] | [Pendiente] |
+| 5 | Implantación | [Pendiente] | [Pendiente] | [Pendiente] |
+
+
+
+

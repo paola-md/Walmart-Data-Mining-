@@ -1,0 +1,48 @@
+# Preparación de los datos 
+
+Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:
+
+* **Selección e integración de datos**,
+* **Limpieza de datos**,
+* **Ingeniería de características**.
+
+A continuación se describirá a mayor detalle cada uno de los puntos referidos. El detalle de la implementación de tales procesos se puede ver a través del archivo **DataPreparation.R**.
+
+
+## 1. Selección e integración de datos
+
+Para esta etapa se debe destacar que, como fue expuesto en la sección del análisis exploratorio de datos, la base de datos de Walmart provee información de los viajes de los clientes en una manera desagregada conforme a las visitas de tales individuos a las tiendas, en función de cada uno de los artículos que se compraron en una visita. Es decir, para cada visita de un cliente pueden existir múltiples reglones, los cuales refieren a los artículos que se adquirieron o devolvieron en dicho evento.
+
+Desde el punto de vista del funcionamiento de los modelos de aprendizaje de máquina, esto constituye una limitante puesto que, en general, tales realizan tareas bajo la idea de que las unidades observacionales en estudio, en este caso las visitas de los clientes a la tienda, aparecen de manera única en las tablas que guardan la información correspondiente.
+
+Es así que la primera decisión fue transformar la información a una tabla en donde se agruparan las visitas de los clientes (ver sección de ingeniería de características para mayor detalle).
+
+## 2. Limpieza de datos
+
+En complemento se llevaron a cabo las siguientes acciones de limpieza sobre los datos aportados por Walmart:
+
+* Sobre los campos que contienen información tipo texto, se aplicó una transformación que convierte todo a minúsculas.
+* Se realizó la imputación de valores cero sobre los campos donde existe información sobre las variables *Upc* y *FinelineNumber*.
+
+## 3. Ingeniería de características
+
+Sobre la base de datos en comento se creó un conjunto de nuevas variables con el propósito de nutrir con mayor elementos de información al modelo que se busca implementar. Entre tales, se encuentran:
+
+* En primera, se identificó cuales fueron los artículos que se involucraron en la transacción de un cliente (usando el identificador de la misma),
+* Posteriormente, se calculo la proporción de cada articulo que representan respecto al volumen de aquellos involucrados en la transacción (tanto de aquellos adquiridos como devueltos),
+* Usando la información anterior, se consolida una nueva base de datos con la información de cada visita de un cliente a través de un renglón en donde se indica que proporción tuvo cada uno de los artículos que se vieron involucrados el evento.
+
+Adicionalmente, se construyeron nuevas características:
+  
+  * A través de una nueva variable (*obj_abs*) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.
+  * La variable *num_obj* refleja el valor absoluto de la cantidad total de objetos que se involucraron en la transacción,
+  * Se creó una variable indicadora(*prod_miss*) que nos dice si en la base original de Walmart se encontraba ausente el campo *Upc*.
+  * Además, no se consideraron las columnas *Weekday*, *Upc* y *visitnumber*
+  
+Por otra parte, también se llevaron a cabo las siguientes acciones:
+
+* Se creó una variable (*weekend*) que refleja si la transacción de un cliente se llevó a cabo o no en un fin de semana,
+* En adición, se generó una variable (*day*) que codifica a manera de categorías numéricas el día de la semana (*Monday*=1, *Tuesday*=2, ..., *Sunday*=7),
+* Análogamente, se construyó una variable numérica (*departmentdescription*) que codifica con categorías numéricas a los diferentes departamentos a los cuales pertenencen los artículos de la tienda.
+* En lo tocante a la devolución de artículos, se crearon dos nuevas variables a) *devol* que indica si en la transacción existió un evento de devolución de artículos, y b) *porc_devol* que refleja la proporción de artículos devueltos con respecto a aquellos que se involucraron en la transacción de un cliente,
+

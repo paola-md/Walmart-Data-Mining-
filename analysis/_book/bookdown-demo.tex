@@ -1,0 +1,390 @@
+\documentclass[]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Proyecto Walmart},
+            pdfauthor={Beto, Cesar, Luis y Paola},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx}
+% grffile has become a legacy package: https://ctan.org/pkg/grffile
+\IfFileExists{grffile.sty}{%
+\usepackage{grffile}
+}{}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Proyecto Walmart}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Beto, Cesar, Luis y Paola}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-12-18}
+
+\usepackage{booktabs}
+\usepackage{amsthm}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#install.packages("bookdown")}
+\CommentTok{# or the development version}
+\CommentTok{# devtools::install_github("rstudio/bookdown")}
+\KeywordTok{library}\NormalTok{(}\StringTok{"bookdown"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{breve-descripciuxf3n-del-proyecto}{%
+\chapter{Breve descripción del proyecto}\label{breve-descripciuxf3n-del-proyecto}}
+
+El presente trabajo busca explorar un conjunto de datos de los clientes de Walmart, a través de técnicas de análisis de datos y aprendizaje de máquina, con el objeto de agrupar los tipos de visitas que hacen los clientes en torno a una serie de categorías desarrollas por la empresa de manera interna, empleando la metodología CRIPS-DM.
+
+\hypertarget{comprensiuxf3n-del-negocio}{%
+\chapter{Comprensión del negocio}\label{comprensiuxf3n-del-negocio}}
+
+\hypertarget{antecedentes}{%
+\section{Antecedentes}\label{antecedentes}}
+
+Uno de los mayores intereses de las cadenas comerciales es conocer el comportamiento de sus clientes con el objeto de poder implementar estrategias de venta acordes a los diferentes necesidades existentes en el público.
+
+En este sentido, un enfoque que puede ser de utilidad es segmentar las visitas que los clientes efectúan en los establecimientos en diferentes tipos de viajes; ello significa determinar un conjunto categorías que reflejen los motivos que se encuentran detrás de una visita a un establecimiento. Para tal efecto, se puede echar mano de la información histórica que se tenga sobre el cliente, en términos de 1) los datos personales de este (por ejemplo, su información socio-económica) y 2) las transacciones de artículos que este haya realizado (tanto para adquirir artículos como para devolverlos por algún motivo); de manera que sea posible delinear un patrón de comportamiento que permita extraer elementos de valor para personalizar experiencias de comprar acordes a la realidad del mercado.
+
+A manera de ejemplo, se puede pensar que existen diferencias entre los clientes que hacen una visita rápida a un establecimiento para comprar dulces, que aquellos que surten sus alacenas para consumo de víveres en la de semana.
+
+Como parte de este interés, Walmart, la cual es una cadena comercial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, ha desarrollado una metodología a nivel interno que le permite agrupar en torno a 38 categorías a las diferentes visitas que realizan sus clientes, en función de los artículos que los clientes adquieren.
+
+En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes\footnote{Véase \url{https://github.com/Kaggle/kaggle-api}}, que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela.
+
+Es así que la idea de este proyecto es analizar los datos aportados por Walmart para proponer un enfoque que permita recrear la categorización hecha por esta empresa, basándose en métodos de aprendizaje de máquina a través de la metodología CRIPS-DM, mediante los conceptos vistos en el curso de Minería y Análisis de Datos.
+
+\hypertarget{determinaciuxf3n-del-objetivo}{%
+\section{Determinación del objetivo}\label{determinaciuxf3n-del-objetivo}}
+
+El objetivo de este proyecto proponer una metodología para resolver el problema de clasificación de los clientes de Walmart, presentes en las bases de datos que dicha empresa compartió a Kaggle en el año 2015, a partir del análisis de datos y métodos de aprendizaje de máquina.
+
+\hypertarget{determinaciuxf3n-de-criterio-de-uxe9xito}{%
+\section{Determinación de criterio de éxito}\label{determinaciuxf3n-de-criterio-de-uxe9xito}}
+
+Como criterio para determinar el cumplimiento del objetivo del proyecto, se estableció que el modelo propuesto tenga un mejor desempeño que el bechmark de la referida competencia de Kaggle.
+
+\hypertarget{plan-del-proyecto}{%
+\section{Plan del proyecto}\label{plan-del-proyecto}}
+
+En línea con la exposición previa, a continuación se presenta el plan de proyecto para lograr el objetivo de este proyecto, mismo que se llevará a cabo a través de las fases que se describen, en alto nivel, a continuación:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Comprensión de los datos de Walmart:} conformada por las etapas de 1) extracción de la información aportada por Walmart, en su estado puro (es decir, datos crudos, sin realizar ningún tratamiento de la información); y 2) el estudio de las variables que componen el conjunto de datos de Walmart, junto con un proceso de exploración de la información contenida en ellos, en términos de una variable, pares de variables o múltiples combinaciones de ellas.
+\item
+  \textbf{Preparación de los datos:} consistente en el proceso de selección e integración de los datos que serán útiles para plantear un metodología de clasificación de los clientes de Walmart, así limpieza de los datos (consideran la imputación en el caso de variables con información no disponible o ausente por algún motivo), y la ingeniería de características pertinente para mejorar el desempeño del enfoque propuesto.
+\item
+  \textbf{Modelado:} corresponde al diseño de un conjunto de modelos, basados en aprendizaje de máquina, encaminados a resolver el problema de clasificación de los viajes de los clientes de Walmart, así como los criterios considerados para seleccionar el modelo con el mejor desempeño y el ajuste realizado para calibrar sus hiper-parámetros.
+\item
+  \textbf{Evaluación:} se refiere a la etapa en donde se realiza la evaluación del modelo óptimo seleccionado como óptimo en la etapa previa, su posterior re-entrenamiento tras conjuntar los datos de entrenamiento y prueba con hiper-parámetros optimizados así como el reporte de la posición final en el tablero de Kaggle del desempeño logrado.
+\item
+  \textbf{Implantación:} relativo al desarrollo de web service en flask para predecir resultados con el modelo final a partir de nuevos datos, así como el reporte ejecutivo que relata los principales hallazgos e hitos del proyecto.
+\end{itemize}
+
+Para mejor referencia, se provee un repositorio en Github \url{https://github.com/paola-md/Walmart-Data-Mining-} que conjunta los archivos de trabajo realizados con motivo del proyecto en cuestión, particularmente la totalidad de scripts en Bash, R y Python, así como las instrucciones a través de las cuales se podrá replicar el contenido del proyecto.
+
+\hypertarget{comprensiuxf3n-de-los-datos}{%
+\chapter{Comprensión de los datos}\label{comprensiuxf3n-de-los-datos}}
+
+\hypertarget{recolecciuxf3n-de-datos}{%
+\section{Recolección de datos}\label{recolecciuxf3n-de-datos}}
+
+De acuerdo a la documentación disponible\footnote{Véase \url{https://github.com/Kaggle/kaggle-api}}, uno de los requisitos necesarios para descargar los datos de visitas de los clientes de Walmart, es aportar la credenciales de un usuario registrado en el Kaggle.
+
+En este caso, para facilitar este proceso, se implementó un programa en Bash, denominado download\_extract\_data.sh, el cual aprovecha la herramienta Wget de UNIX, para realizar la descarga de los datos del sitio electrónico en comento, recibiendo un archivo de configuración con las credenciales de autenticación de un cierto usuario (archivo cookies.txt).
+
+A su vez, se creó un script en R (wrinting\_feather.R, presente en la carpeta /data) que convierte los archivos .csv a formato .feather.
+
+Como resultado, dentro de la carpeta /data se obtiene los siguientes archivo en formato .csv y .feather:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{test.csv:} el cual contiene los datos del conjunto de entrenamiento,
+\item
+  \textbf{train.csv:} relativo a los datos de entrenamiento, y finalmente,
+\item
+  \textbf{sample\_submission.csv:} es un ejemplo del formato en que se deben aportar los datos al sistema de Kaggle para la evaluación del desempeño del modelo de clasificación propuesto para el problema que nos ocupa.
+\item
+  \textbf{test.feather},
+\item
+  \textbf{train.feather}.
+\end{itemize}
+
+** Instrucciones para descarga de datos**
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Debemos darle permisos de ejecución al script de Bash que se encuentra en la carpeta \emph{/build/comprension\_datos} desde la terminal:
+\end{enumerate}
+
+\begin{verbatim}
+chmod +x download_extract_data.sh
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Posteriormente ejecutamos dicho programa:
+\end{enumerate}
+
+\begin{verbatim}
+./download_extract_data.sh
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Como se ha mencionado, el resultado de la ejecución de este script es la descarga de tres archivos dentro de la carpeta /data (train.csv, test.csv y sample\_submission.csv).
+\end{enumerate}
+
+\hypertarget{anuxe1lisis-exploratorio-de-datos}{%
+\section{Análisis exploratorio de datos}\label{anuxe1lisis-exploratorio-de-datos}}
+
+De acuerdo a la documentación de Kaggle, la información de Walmart se proporciona en términos de las siguientes 7 variables:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{TripType:} Variable objetivo. Son 38 diferentes categorias,
+\item
+  \textbf{Visit Number:} código identificardor de la visita de un usuario al establecimiento (o simplemente, ``viaje''),
+\item
+  \textbf{Weekday:} Día de la semana en que ocurrió el viaje del cliente,
+\item
+  \textbf{UPC} corresponde al número de barras de cada producto (es decir, un código identidicador del mismo),
+\item
+  \textbf{ScanCount:} relativo al número de productos involucrados en la transacción del cliente. Cabe descatar que si se trada de una devolución, se representa como un número negativo
+\item
+  \textbf{Department Description:} corresponde a una descripción de la categoria a la que pertenece el producto involucrado en la transacción del cliente.
+\item
+  \textbf{Fineline Number:} relativo a un código identificador de 5,196 productos.
+\end{itemize}
+
+\hypertarget{univariado}{%
+\subsection{Univariado}\label{univariado}}
+
+\hypertarget{bivariado}{%
+\subsection{Bivariado}\label{bivariado}}
+
+\hypertarget{multivariado}{%
+\subsection{Multivariado}\label{multivariado}}
+
+\hypertarget{preparaciuxf3n-de-los-datos}{%
+\chapter{Preparación de los datos}\label{preparaciuxf3n-de-los-datos}}
+
+Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Selección e integración de datos},
+\item
+  \textbf{Limpieza de datos},
+\item
+  \textbf{Ingeniería de características}.
+\end{itemize}
+
+A continuación se describirá a mayor detalle cada uno de los puntos referidos. El detalle de la implementación de tales procesos se puede ver a través del archivo \textbf{DataPreparation.R}.
+
+\hypertarget{selecciuxf3n-e-integraciuxf3n-de-datos}{%
+\section{1. Selección e integración de datos}\label{selecciuxf3n-e-integraciuxf3n-de-datos}}
+
+Para esta etapa se debe destacar que, como fue expuesto en la sección del análisis exploratorio de datos, la base de datos de Walmart provee información de los viajes de los clientes en una manera desagregada conforme a las visitas de tales individuos a las tiendas, en función de cada uno de los artículos que se compraron en una visita. Es decir, para cada visita de un cliente pueden existir múltiples reglones, los cuales refieren a los artículos que se adquirieron o devolvieron en dicho evento.
+
+Desde el punto de vista del funcionamiento de los modelos de aprendizaje de máquina, esto constituye una limitante puesto que, en general, tales realizan tareas bajo la idea de que las unidades observacionales en estudio, en este caso las visitas de los clientes a la tienda, aparecen de manera única en las tablas que guardan la información correspondiente.
+
+Es así que la primera decisión fue transformar la información a una tabla en donde se agruparan las visitas de los clientes (ver sección de ingeniería de características para mayor detalle).
+
+\hypertarget{limpieza-de-datos}{%
+\section{2. Limpieza de datos}\label{limpieza-de-datos}}
+
+En complemento se llevaron a cabo las siguientes acciones de limpieza sobre los datos aportados por Walmart:
+
+\begin{itemize}
+\tightlist
+\item
+  Sobre los campos que contienen información tipo texto, se aplicó una transformación que convierte todo a minúsculas.
+\item
+  Se realizó la imputación de valores cero sobre los campos donde existe información sobre las variables \emph{Upc} y \emph{FinelineNumber}.
+\end{itemize}
+
+\hypertarget{ingenieruxeda-de-caracteruxedsticas}{%
+\section{3. Ingeniería de características}\label{ingenieruxeda-de-caracteruxedsticas}}
+
+Sobre la base de datos en comento se creó un conjunto de nuevas variables con el propósito de nutrir con mayor elementos de información al modelo que se busca implementar. Entre tales, se encuentran:
+
+\begin{itemize}
+\tightlist
+\item
+  En primera, se identificó cuales fueron los artículos que se involucraron en la transacción de un cliente (usando el identificador de la misma),
+\item
+  Posteriormente, se calculo la proporción de cada articulo que representan respecto al volumen de aquellos involucrados en la transacción (tanto de aquellos adquiridos como devueltos),
+\item
+  Usando la información anterior, se consolida una nueva base de datos con la información de cada visita de un cliente a través de un renglón en donde se indica que proporción tuvo cada uno de los artículos que se vieron involucrados el evento.
+\end{itemize}
+
+Adicionalmente, se construyeron nuevas características:
+
+\begin{itemize}
+\tightlist
+\item
+  A través de una nueva variable (\emph{obj\_abs}) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.
+\item
+  La variable \emph{num\_obj} refleja el valor absoluto de la cantidad total de objetos que se involucraron en la transacción,
+\item
+  Se creó una variable indicadora(\emph{prod\_miss}) que nos dice si en la base original de Walmart se encontraba ausente el campo \emph{Upc}.
+\item
+  Además, no se consideraron las columnas \emph{Weekday}, \emph{Upc} y \emph{visitnumber}
+\end{itemize}
+
+Por otra parte, también se llevaron a cabo las siguientes acciones:
+
+\begin{itemize}
+\tightlist
+\item
+  Se creó una variable (\emph{weekend}) que refleja si la transacción de un cliente se llevó a cabo o no en un fin de semana,
+\item
+  En adición, se generó una variable (\emph{day}) que codifica a manera de categorías numéricas el día de la semana (\emph{Monday}=1, \emph{Tuesday}=2, \ldots{}, \emph{Sunday}=7),
+\item
+  Análogamente, se construyó una variable numérica (\emph{departmentdescription}) que codifica con categorías numéricas a los diferentes departamentos a los cuales pertenencen los artículos de la tienda.
+\item
+  En lo tocante a la devolución de artículos, se crearon dos nuevas variables a) \emph{devol} que indica si en la transacción existió un evento de devolución de artículos, y b) \emph{porc\_devol} que refleja la proporción de artículos devueltos con respecto a aquellos que se involucraron en la transacción de un cliente,
+\end{itemize}
+
+\bibliography{book.bib,packages.bib}
+
+
+\end{document}
