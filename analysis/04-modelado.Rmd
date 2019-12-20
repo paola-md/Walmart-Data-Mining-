@@ -21,3 +21,27 @@ Como resultado, se obtuvo un modelo, junto con sus correspondientes parámetros,
 que tiene el mejor desempeño en la clasificación de las visitas de clientes del establecimiento referido.
 
 Para mayor detalle, se invita al lector a consultar el archivo donde se llevó acabo la calibración de tales modelos junto con sus hiper-parámetros (*magic loop*), presente en la carpeta */build/modelado*.
+
+## Performace de los diferentes modelos ajustados para el desarrollo del proyecto
+
+A efecto de iliustrar el trabajo realizado bajo la metodologìa previamente descrita, a continuaciòmn se presentan capturas de pantalla de las puntuaciones obtenidas en la competencia de la página electrónica de Kaggle.
+
+**Modelo inicial**
+
+Este modelo fue de las primeros implementados, observando el peor desempeño. Se basó en una exploraciòn de modelo de máquinas de soporte vectorial con parámetros sin calibrar y un kernel genérico.
+
+![Modelo inicial](kaggle_sample.png)
+
+**Modelo logístico**
+
+Desarrollado bajo una regresión logística para un problema de clasificación de múltiples clases, se obtuvo un mejor desempeño que el modelo inicial.
+
+![Modelo logístico](kaggle_lr.png)
+
+**Modelo Random Forest**
+
+Este modelo resulto tener el mejor desempeño tras un proceso de calibración de hiper-parámetros conjugado con validación cruzada.
+
+
+![Modelo logístico](kaggle_best.jpeg)
+
