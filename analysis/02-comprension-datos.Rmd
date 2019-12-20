@@ -46,7 +46,7 @@ De acuerdo a la documentación de Kaggle, la información de Walmart se proporci
 * **Fineline Number:** relativo a un código identificador de 5,196 productos.
 
 
-En la carperta de comprensión de datos dentro de la carpeta build se encuentra un shiny app que permite al usuario explorar visualmente la base de datos en un formato *tidy*. A continuación, se presentan los hallazgos más importantes.
+En la carperta de comprensión de datos (*build/comprension_datos*) dentro de la carpeta build se encuentra un shiny app que permite al usuario explorar visualmente la base de datos en un formato *tidy*. A continuación, se presentan los hallazgos más importantes.
 
 ```{r setup, include=FALSE}
 library(tidyverse)
