@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Capìtulo 2 Comprensión del negocio | Proyecto Walmart</title>
+  <title>Capìtulo 5 Modelado | Proyecto Walmart</title>
   <meta name="description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Capìtulo 2 Comprensión del negocio | Proyecto Walmart" />
+  <meta property="og:title" content="Capìtulo 5 Modelado | Proyecto Walmart" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capìtulo 2 Comprensión del negocio | Proyecto Walmart" />
+  <meta name="twitter:title" content="Capìtulo 5 Modelado | Proyecto Walmart" />
   
   <meta name="twitter:description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="comprensión-de-los-datos.html"/>
+<link rel="prev" href="preparación-de-los-datos.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -191,52 +191,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="comprensión-del-negocio" class="section level1">
-<h1><span class="header-section-number">Capìtulo 2</span> Comprensión del negocio</h1>
-<div id="antecedentes" class="section level2">
-<h2><span class="header-section-number">2.1</span> Antecedentes</h2>
-<p>Uno de los mayores intereses de las cadenas comerciales es conocer el comportamiento de sus clientes con el objeto de poder implementar estrategias de venta acordes a los diferentes necesidades existentes en el público.</p>
-<p>En este sentido, un enfoque que puede ser de utilidad es segmentar las visitas que los clientes efectúan en los establecimientos en diferentes tipos de viajes; ello significa determinar un conjunto categorías que reflejen los motivos que se encuentran detrás de una visita a un establecimiento. Para tal efecto, se puede echar mano de la información histórica que se tenga sobre el cliente, en términos de 1) los datos personales de este (por ejemplo, su información socio-económica) y 2) las transacciones de artículos que este haya realizado (tanto para adquirir artículos como para devolverlos por algún motivo); de manera que sea posible delinear un patrón de comportamiento que permita extraer elementos de valor para personalizar experiencias de comprar acordes a la realidad del mercado.</p>
-<p>A manera de ejemplo, se puede pensar que existen diferencias entre los clientes que hacen una visita rápida a un establecimiento para comprar dulces, que aquellos que surten sus alacenas para consumo de víveres en la de semana.</p>
-<p>Como parte de este interés, Walmart, la cual es una cadena comercial con amplia presencia alrededor del mundo en la venta de artículos de tecnología, hogar, linea blanca, supermercado y muchos otros, ha desarrollado una metodología a nivel interno que le permite agrupar en torno a 38 categorías a las diferentes visitas que realizan sus clientes, en función de los artículos que los clientes adquieren.</p>
-<p>En tal contexto, durante 2015, esta cadena hizo disponible, a través de Kaggle, un conjunto de datos de las visitas de sus clientes<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, que reflejan dicha categorización de los visitas de sus clientes, con el objeto de incentivar a científicos de datos a recrearla y explorar si ésta puede refinarse, redundando en un proceso de mejora en la segmentación de su clientela.</p>
-<p>Es así que la idea de este proyecto es analizar los datos aportados por Walmart para proponer un enfoque que permita recrear la categorización hecha por esta empresa, basándose en métodos de aprendizaje de máquina a través de la metodología CRIPS-DM, mediante los conceptos vistos en el curso de Minería y Análisis de Datos.</p>
-</div>
-<div id="determinación-del-objetivo" class="section level2">
-<h2><span class="header-section-number">2.2</span> Determinación del objetivo</h2>
-<p>El objetivo de este proyecto proponer una metodología para resolver el problema de clasificación de los clientes de Walmart, presentes en las bases de datos que dicha empresa compartió a Kaggle en el año 2015, a partir del análisis de datos y métodos de aprendizaje de máquina.</p>
-</div>
-<div id="determinación-de-criterio-de-éxito" class="section level2">
-<h2><span class="header-section-number">2.3</span> Determinación de criterio de éxito</h2>
-<p>Como criterio para determinar el cumplimiento del objetivo del proyecto, se estableció que el modelo propuesto tenga un mejor desempeño que el bechmark de la referida competencia de Kaggle.</p>
-</div>
-<div id="plan-del-proyecto" class="section level2">
-<h2><span class="header-section-number">2.4</span> Plan del proyecto</h2>
-<p>En línea con la exposición previa, a continuación se presenta el plan de proyecto para lograr el objetivo de este proyecto, mismo que se llevará a cabo a través de las fases que se describen, en alto nivel, a continuación:</p>
-<ul>
-<li><strong>Comprensión de los datos de Walmart:</strong> conformada por las etapas de 1) extracción de la información aportada por Walmart, en su estado puro (es decir, datos crudos, sin realizar ningún tratamiento de la información); y 2) el estudio de las variables que componen el conjunto de datos de Walmart, junto con un proceso de exploración de la información contenida en ellos, en términos de una variable, pares de variables o múltiples combinaciones de ellas.</li>
-<li><strong>Preparación de los datos:</strong> consistente en el proceso de selección e integración de los datos que serán útiles para plantear un metodología de clasificación de los clientes de Walmart, así limpieza de los datos (consideran la imputación en el caso de variables con información no disponible o ausente por algún motivo), y la ingeniería de características pertinente para mejorar el desempeño del enfoque propuesto.</li>
-<li><strong>Modelado:</strong> corresponde al diseño de un conjunto de modelos, basados en aprendizaje de máquina, encaminados a resolver el problema de clasificación de los viajes de los clientes de Walmart, así como los criterios considerados para seleccionar el modelo con el mejor desempeño y el ajuste realizado para calibrar sus hiper-parámetros.</li>
-<li><strong>Evaluación:</strong> se refiere a la etapa en donde se realiza la evaluación del modelo óptimo seleccionado como óptimo en la etapa previa, su posterior re-entrenamiento tras conjuntar los datos de entrenamiento y prueba con hiper-parámetros optimizados así como el reporte de la posición final en el tablero de Kaggle del desempeño logrado.</li>
-<li><strong>Implantación:</strong> relativo al desarrollo de web service en flask para predecir resultados con el modelo final a partir de nuevos datos, así como el reporte ejecutivo que relata los principales hallazgos e hitos del proyecto.</li>
-</ul>
-<p>Para mejor referencia, se provee un repositorio en Github <a href="https://github.com/paola-md/Walmart-Data-Mining-" class="uri">https://github.com/paola-md/Walmart-Data-Mining-</a> que conjunta los archivos de trabajo realizados con motivo del proyecto en cuestión, particularmente la totalidad de scripts en Bash, R y Python, así como las instrucciones a través de las cuales se podrá replicar el contenido del proyecto.</p>
+<div id="modelado" class="section level1">
+<h1><span class="header-section-number">Capìtulo 5</span> Modelado</h1>
+<div id="metodología-de-modelación-del-tipo-de-visitas-de-clientes-en-walmart" class="section level2">
+<h2><span class="header-section-number">5.1</span> Metodología de modelación del tipo de visitas de clientes en Walmart</h2>
+<p>En línea con lo mostrado en la etapa de análisis exploratorio, las visitas de los clientes de Walmart se asocian a combinaciones de artículos involucrados en sus transacciones. Tales se pueden abstraer a través de los departamentos en que las tiendas clasifican a su mercancia, puesto que no solo que corresponden a conjuntos de bienes de una naturaleza similar, sino que los ubican dentro de un mismo segmento del mercado en que los clientes identifican.</p>
+<p>Ahora bien, motivados por tales hipótesis y en razón de que para la base de datos de Walmart se decidió representar a las visitas que los clientes realizan a los establecimientos a travès de una unidad observacional que refleja en conjunto a la trasancción de artículos que hace cada cliente, en términos de la proporción de productos que comprar dentro de los departamentos, para proponer un modelo que
+pueda capturar la relación entre los tipos de visitas que realizan los clientes y
+dichas variables, se estimó pertinente explorar distintos modelos de aprendizaje de máquina.</p>
+<p>La idea principal para plantearlos fue aprovechar el conocimiento de los datos de
+Walmart, de manera que pudieran capturarse los efectos no lineales que se aprecian sobre las canastas de artìculos relativas a las transacciones de los clientes en cada visita. Algunos de los modelos que se conocen en la prática
+que pueden reflejar dichas tendencias son aquellos basados en árboles o
+ensambles de los mismos.</p>
+<p>En tal sentido, se planteó la exploración de diversos modelos de aprendizaje de
+máquina como los recién descritos, a través de una implementación de Python, en donde se calibraron sus hiper-parámetros mediante una técnica conocida como
+validación cruzada.</p>
+<p>Como resultado, se obtuvo un modelo, junto con sus correspondientes parámetros,
+que tiene el mejor desempeño en la clasificación de las visitas de clientes del establecimiento referido.</p>
+<p>Para mayor detalle, se invita al lector a consultar el archivo donde se llevó acabo la calibración de tales modelos junto con sus hiper-parámetros (<em>magic loop</em>), presente en la carpeta <em>/build/modelado</em>.</p>
 
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>Véase <a href="https://github.com/Kaggle/kaggle-api" class="uri">https://github.com/Kaggle/kaggle-api</a><a href="comprensión-del-negocio.html#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="comprensión-de-los-datos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="preparación-de-los-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -267,7 +249,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-comprension-negocio.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-modelado.Rmd",
 "text": "Edit"
 },
 "history": {

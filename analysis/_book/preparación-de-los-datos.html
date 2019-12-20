@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Preparación de los datos | Proyecto Walmart</title>
+  <title>Capìtulo 4 Preparación de los datos | Proyecto Walmart</title>
   <meta name="description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Preparación de los datos | Proyecto Walmart" />
+  <meta property="og:title" content="Capìtulo 4 Preparación de los datos | Proyecto Walmart" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Preparación de los datos | Proyecto Walmart" />
+  <meta name="twitter:title" content="Capìtulo 4 Preparación de los datos | Proyecto Walmart" />
   
   <meta name="twitter:description" content="El objetivo de libro es describir el proceso de CRISP-DM." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Beto, Cesar, Luis y Paola" />
 
 
-<meta name="date" content="2019-12-18" />
+<meta name="date" content="2019-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="comprensión-de-los-datos.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="modelado.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,14 @@
 
 
 
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.9.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-1.49.4/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-1.49.4/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -140,16 +148,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html"><i class="fa fa-check"></i><b>3</b> Comprensión de los datos</a><ul>
 <li class="chapter" data-level="3.1" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#recolección-de-datos"><i class="fa fa-check"></i><b>3.1</b> Recolección de datos</a></li>
-<li class="chapter" data-level="3.2" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#análisis-exploratorio-de-datos"><i class="fa fa-check"></i><b>3.2</b> Análisis exploratorio de datos</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#univariado"><i class="fa fa-check"></i><b>3.2.1</b> Univariado</a></li>
-<li class="chapter" data-level="3.2.2" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#bivariado"><i class="fa fa-check"></i><b>3.2.2</b> Bivariado</a></li>
-<li class="chapter" data-level="3.2.3" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#multivariado"><i class="fa fa-check"></i><b>3.2.3</b> Multivariado</a></li>
-</ul></li>
+<li class="chapter" data-level="3.2" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#análisis-exploratorio-de-datos"><i class="fa fa-check"></i><b>3.2</b> Análisis exploratorio de datos</a></li>
+<li class="chapter" data-level="3.3" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#carga-de-los-datos"><i class="fa fa-check"></i><b>3.3</b> Carga de los datos</a></li>
+<li class="chapter" data-level="3.4" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#funciones-auxiliares"><i class="fa fa-check"></i><b>3.4</b> Funciones auxiliares</a></li>
+<li class="chapter" data-level="3.5" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#análisis-univariado"><i class="fa fa-check"></i><b>3.5</b> Análisis Univariado</a></li>
+<li class="chapter" data-level="3.6" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#upc"><i class="fa fa-check"></i><b>3.6</b> Upc</a></li>
+<li class="chapter" data-level="3.7" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#scancount"><i class="fa fa-check"></i><b>3.7</b> ScanCount</a></li>
+<li class="chapter" data-level="3.8" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#filelinenumber"><i class="fa fa-check"></i><b>3.8</b> FilelineNumber</a></li>
+<li class="chapter" data-level="3.9" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#departmentdescription"><i class="fa fa-check"></i><b>3.9</b> DepartmentDescription</a></li>
+<li class="chapter" data-level="3.10" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#variable-respuesta"><i class="fa fa-check"></i><b>3.10</b> Variable respuesta</a></li>
+<li class="chapter" data-level="3.11" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#visitnumber"><i class="fa fa-check"></i><b>3.11</b> Visitnumber</a></li>
+<li class="chapter" data-level="3.12" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#weekday"><i class="fa fa-check"></i><b>3.12</b> Weekday</a></li>
+<li class="chapter" data-level="3.13" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#análisis-bivariado"><i class="fa fa-check"></i><b>3.13</b> Análisis Bivariado</a></li>
+<li class="chapter" data-level="3.14" data-path="comprensión-de-los-datos.html"><a href="comprensión-de-los-datos.html#análisis-multivariado"><i class="fa fa-check"></i><b>3.14</b> Análisis Multivariado</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html"><i class="fa fa-check"></i><b>4</b> Preparación de los datos</a><ul>
 <li class="chapter" data-level="4.1" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#selección-e-integración-de-datos"><i class="fa fa-check"></i><b>4.1</b> 1. Selección e integración de datos</a></li>
 <li class="chapter" data-level="4.2" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#limpieza-de-datos"><i class="fa fa-check"></i><b>4.2</b> 2. Limpieza de datos</a></li>
 <li class="chapter" data-level="4.3" data-path="preparación-de-los-datos.html"><a href="preparación-de-los-datos.html#ingeniería-de-características"><i class="fa fa-check"></i><b>4.3</b> 3. Ingeniería de características</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelado.html"><a href="modelado.html"><i class="fa fa-check"></i><b>5</b> Modelado</a><ul>
+<li class="chapter" data-level="5.1" data-path="modelado.html"><a href="modelado.html#metodología-de-modelación-del-tipo-de-visitas-de-clientes-en-walmart"><i class="fa fa-check"></i><b>5.1</b> Metodología de modelación del tipo de visitas de clientes en Walmart</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -173,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="preparación-de-los-datos" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Preparación de los datos</h1>
+<h1><span class="header-section-number">Capìtulo 4</span> Preparación de los datos</h1>
 <p>Este documento describe el proceso de preparación de los datos llevado a cabo sobre la información de Walmart. Cabe destacar que este comprende las etapas:</p>
 <ul>
 <li><strong>Selección e integración de datos</strong>,</li>
@@ -205,10 +224,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Adicionalmente, se construyeron nuevas características:</p>
 <ul>
-<li>A través de una nueva variable (<em>obj_abs</em>) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.</li>
+<li>A través de una nueva variable (<em>obj_abs</em>) que refleja la cantidad total de objetos que se involucraron en la transacción, donde aquellos que se adquirieron se representaron de manera agregada con signo positivo y los que se devolvieron con signo negativo.
+<ul>
 <li>La variable <em>num_obj</em> refleja el valor absoluto de la cantidad total de objetos que se involucraron en la transacción,</li>
 <li>Se creó una variable indicadora(<em>prod_miss</em>) que nos dice si en la base original de Walmart se encontraba ausente el campo <em>Upc</em>.</li>
 <li>Además, no se consideraron las columnas <em>Weekday</em>, <em>Upc</em> y <em>visitnumber</em></li>
+</ul></li>
 </ul>
 <p>Por otra parte, también se llevaron a cabo las siguientes acciones:</p>
 <ul>
@@ -226,7 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="comprensión-de-los-datos.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="modelado.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
