@@ -92,6 +92,7 @@ distrib_val <- function(x,n){
 ```
 
 ## Análisis Univariado
+
 A continuación comenzamos nuestro análisis exploratorio de datos viendo la distribución de las categorías presentes dentro de la base de datos y visualizando algunas variables importantes.
 
 
@@ -102,7 +103,7 @@ summary(train)
 
 
 ## Upc
-Tenemos bastantes productos distintos a escoger entre las canastas. Esto lleva a conjeturar que la base de datos se levanto a partir de varias tiendas Walmart.
+Tenemos bastantes productos distintos a escoger entre las canastas. Esto lleva a conjeturar que la base de datos se levantó a partir de varias tiendas Walmart.
 ```{R}
 cuantos(train$Upc)
 ```
@@ -146,7 +147,6 @@ kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
 Regresaremos a esta variable en el EDA multivariado.
-
 
 ## Variable respuesta
 
@@ -316,8 +316,7 @@ kable(head(walmart_train_trip)) %>%  kable_styling(bootstrap_options = "striped"
 ```
 
 
-
-Ahora, hay que entender mejor la relación entre los tipos de departamento y los tipos de canastas de los tickets en la base de datos., Entonces, en la base datostransformada se tienen los tickets y la probabilidad de que un departamento sea el dominante (en el sentido de que la mayoría de los productos de ese ticket pertenezca sólo a un departamente, una frecuencia hacia dentro del ticket), así al tomar el valor esperado respecto al tipo de canasta (*triptype*) de todas estas probabilidades. Ahora, buscamos encontrar los departamentos cuyas probabilidades se muevan en el mismo sentido de acuerdo al tipo de canasta. Así pues, conseguimos el siguiente mapa de calor: 
+Ahora, hay que entender mejor la relación entre los tipos de departamento y los tipos de canastas de los tickets en la base de datos., Entonces, en la base datos transformada se tienen los tickets y la probabilidad de que un departamento sea el dominante (en el sentido de que la mayoría de los productos de ese ticket pertenezca sólo a un departamente, una frecuencia hacia dentro del ticket), así al tomar el valor esperado respecto al tipo de canasta (*triptype*) de todas estas probabilidades. Ahora, buscamos encontrar los departamentos cuyas probabilidades se muevan en el mismo sentido de acuerdo al tipo de canasta. Así pues, conseguimos el siguiente mapa de calor: 
 
 
 ```{r}
@@ -406,8 +405,6 @@ graph <- as_tbl_graph(correlation) %>%
 graficar_red_nd(graph, 'Agrupamiento de DepartmentType respecto al valor esperado del TripType entre canastas')
 
 ```
-
-
 
 
 Esto se deja como un ejercio a futuro, por escasez de tiempo.

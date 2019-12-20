@@ -1,0 +1,9 @@
+# Modelado
+
+## Metodología de modelación del tipo de visitas de clientes en Walmart
+
+En línea con lo mostrado en la etapa de análisis exploratorio, las visitas de los clientes de Walmart se asocian a combinaciones de artículos involucrados en sus transacciones. Tales se pueden abstraer a través de los departamentos en que las tiendas clasifican a su mercancia, puesto que no solo que corresponden a conjuntos de bienes de una naturaleza similar, sino que los ubican dentro de un mismo segmento del mercado en que los clientes identifican.
+
+Ahora bien, motivados por tales hipótesis  y en razón de que para la base de datos de Walmart se decidió representar a las visitas que los clientes realizan a los establecimientos a travès de una unidad observacional que refleja en conjunto a la trasancción de artículos que hace cada cliente, en términos de la proporción de productos que comprar dentro de los departamentos, para proponer un modelo que
+pueda capturar la relación entre los tipos de visitas que realizan los clientes y
+dichas variables, se estimó pertinente explorar a modelos de aprendizaje de máquina
