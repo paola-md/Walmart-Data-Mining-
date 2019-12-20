@@ -1,0 +1,11 @@
+# Implantación
+El objetivo es tener carritos de super inteligentes que cuando un cliente tome un producto, prediga el tipo de visita y en un futuro haga sugerencias de compra.
+El primer paso es predecir con un producto el tipo de visita.
+
+## Metodología de implantación del tipo de visitas de clientes en Walmart
+Se creo un servicio web montado en Flask que recibe el upc del producto, el dia de la semana, la cantidad del producto, el departamento al que pertenece y el códgo del producto y regresa el tipo de visita. 
+
+Ejemplo de llamada
+```
+curl -H "Content-type: application/json" -X POST http://0.0.0.0:5000/modelo -d '{"upc":3, "day":7, "count":1, "dep":3, "finel":8}'
+```
