@@ -46,8 +46,368 @@ De acuerdo a la documentación de Kaggle, la información de Walmart se proporci
 * **Fineline Number:** relativo a un código identificador de 5,196 productos.
 
 
-### Univariado
+En la carperta de comprensión de datos (*build/comprension_datos*) dentro de la carpeta build se encuentra un shiny app que permite al usuario explorar visualmente la base de datos en un formato *tidy*. A continuación, se presentan los hallazgos más importantes.
 
-### Bivariado
+```{r setup, include=FALSE}
+library(tidyverse)
+library(readr)
+library(knitr)
+library(plotly)
+library(feather)
+library(kableExtra)
+library(janitor)
+library(tidygraph)
+library(visNetwork)
+library(ggraph)
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-### Multivariado
+## Carga de los datos
+
+```{R}
+train <- read_feather('datos/train.feather')
+```
+
+## Funciones auxiliares
+
+
+```{R}
+cuantos <- function(x){
+length(unique(x))
+}
+```
+
+```{R}
+# Funciones para crear una tabla con distribuciones porcentales de los campos en una columna
+distrib <- function(x){
+  tablita <- table(x)
+  df <- cbind(tablita,round(prop.table(tablita)*100,4))
+  colnames(df) <- c('Frecuencia','Porcentaje')
+  df
+}
+
+distrib_val <- function(x,n){
+  do.call(rbind,lapply(x[n],distrib))
+}
+```
+
+## Análisis Univariado
+A continuación comenzamos nuestro análisis exploratorio de datos viendo la distribución de las categorías presentes dentro de la base de datos y visualizando algunas variables importantes.
+
+
+```{R}
+summary(train)
+```
+
+
+
+## Upc
+Tenemos bastantes productos distintos a escoger entre las canastas. Esto lleva a conjeturar que la base de datos se levanto a partir de varias tiendas Walmart.
+```{R}
+cuantos(train$Upc)
+```
+
+```{R}
+dt <- train %>% count(Upc) %>%  mutate(prop = round(prop.table(n)*100,2))%>% arrange(desc(prop)) %>% head()
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+## ScanCount
+Las cantidades de productos comprados en las canastas es bastante pequeña, tanto que hasta podría considerarse una categoría. Sin embargo, esto no se hizo.
+```{R}
+cuantos(train$ScanCount)
+```
+
+```{R}
+dt <- train %>% count(ScanCount) %>%  mutate(prop = round(prop.table(n)*100,4))%>% arrange(desc(prop)) 
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+## FilelineNumber
+Esta es una descripción interna hecha por Walmart, que para nuestros fines, mete más ruido de lo que nos interesa.
+```{R}
+cuantos(train$FinelineNumber)
+```
+
+```{R}
+dt <- train %>% count(FinelineNumber) %>%  mutate(prop = round(prop.table(n)*100,2))%>% arrange(desc(prop))
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+## DepartmentDescription
+El departamento al final es de las variables más importantes. En la sección de ingeniería de características se crearon nuevas variables que representában la probabilidad de que, dado los productos que se compraron en una canasta, esa canasta pertenezca a un departamento dado.
+```{R}
+cuantos(train$DepartmentDescription)
+```
+
+```{R}
+dt <- train %>% count(DepartmentDescription) %>%  mutate(prop = round(prop.table(n)*100,2))%>% arrange(desc(prop)) 
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+Regresaremos a esta variable en el EDA multivariado.
+
+
+## Variable respuesta
+
+Nuestra variable de respuesta consta de 38 categorías.
+
+```{R}
+cuantos(train$TripType)
+```
+
+
+```{R}
+dt <- train %>% count(TripType) %>%  mutate(prop = round(prop.table(n)*100,2))%>% arrange(desc(prop)) 
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+
+
+```{r}
+gr <- train %>% 
+  clean_names() %>% 
+    select(trip_type) %>% 
+    purrr::set_names(nm = c('x')) %>%
+   mutate(id = 1:n()) %>% 
+    group_by(x) %>%
+    tally() %>% 
+   rename( count = n)
+ 
+ gr%>%
+    plot_ly(labels = ~x, values = ~count) %>%
+    add_pie(hole = 0.6) %>%
+    layout(title = paste("Composición de la variable tripType ,respecto a las canastas (variable upc)"),  
+                         showlegend = F,
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                        showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                        showticklabels = FALSE)) %>%
+   layout(legend = list(orientation = 'h'))
+
+```
+
+Nótese que la base de datos está treméndamente desbalanceada, pues tan sólo 4 de las categorías (37,38,39 y 40) acumulan más del 50% de los productos comprados en cada canasta.
+
+## Visitnumber
+Ahora, haciendo una agrupación hacia dentro de los tickets de las visitas, vemos que la variable de respuesta está más balanceada.
+
+```{R}
+cuantos(train$VisitNumber)
+```
+
+
+```{R}
+dt <- train %>% count(VisitNumber) %>%  mutate(prop = round(prop.table(n)*100,4))%>% arrange(desc(prop)) %>% head()
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+
+```{r}
+gr <- train %>% 
+    select(TripType, VisitNumber) %>% 
+    unique() %>% 
+    select(TripType) %>% 
+    purrr::set_names(nm = c('x')) %>%
+   mutate(id = 1:n()) %>% 
+    group_by(x) %>%
+    tally() %>% 
+   rename( count = n)
+ 
+ gr%>%
+    plot_ly(labels = ~x, values = ~count) %>%
+    add_pie(hole = 0.6) %>%
+    layout(title = paste("Composición de la variable tripType ,respecto a las canastas (variable visitNumber)"),  
+                         showlegend = F,
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                        showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, 
+                        showticklabels = FALSE)) %>%
+   layout(legend = list(orientation = 'h'))
+```
+
+ Sin embargo, las categorías mencionadas con anterioridad dejan de ser las dominantes, con excepción de la 40 y la 39. Ahora, entran al juego la 8, la 9 y la 999.
+
+## Weekday
+
+Primero, nótese que la grán mayoría de las canastas se compraron en fin de semana (>50% de los tickets ocurrieron de viernes a domingo).
+
+```{R}
+cuantos(train$Weekday)
+```
+
+```{R}
+dt <- train %>%select(VisitNumber, Weekday) %>% unique %>%  count(Weekday) %>%  mutate(prop = round(prop.table(n)*100,2))%>% arrange(desc(prop)) 
+kable(dt) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+## Análisis Bivariado
+
+En la sección anterior se notó que casi todas las canastas ocurrieron en fin de semana. Veamos cómo se distribuyen respecto a la variable de respuesta tanto respecto a productos brutos como respecto a canastas.
+
+Ahora, respecto a productos brutos, filtraremos para las categorías que acaparan la mayor cantidad de datos en la base (37,38,39 y 40).
+
+```{r}
+ggplotly(  train %>% 
+    select(TripType, Weekday) %>% 
+    filter(TripType %in% 37:40) %>% 
+    mutate(TripType = factor(TripType)) %>% 
+    set_names(nm = c('x','y')) %>%
+    group_by(x,y) %>% 
+    tally %>% 
+    ungroup %>% 
+    group_by(x) %>% 
+    mutate(porc = 100*n/sum(n)) %>% 
+    ungroup %>% 
+    ggplot(aes(x = x, y = porc))+
+    geom_col(aes(fill = y), width = 0.7)+
+    theme_minimal()+
+    labs(title = 'Composición de variables categóricas de acuerdo a los productos',
+         x = 'TripType',
+         y = 'Porcentaje',
+         fill = 'Weekday')+
+    theme(axis.text.x = element_text(angle = 90))) %>% 
+  layout(legend = list(orientation = 'h'))
+
+
+```
+
+Vemos que, respecto a la cantidad de productos, la distribución de los tipos de canasta es bastante uniforme a través de los días de la semana.
+
+
+Ahora exploremos el número tickets de los tipos de canastas la distribución de los días de la semana, ahora filtrando para los tipos de canasta que resultaron como categorías dominantes en los conteos.
+
+```{r}
+ggplotly(  train %>% 
+    select(TripType, Weekday, VisitNumber) %>% 
+    filter(TripType %in% c(40,39,8,9,999)) %>% 
+      unique %>% 
+      select(-VisitNumber) %>% 
+    mutate(TripType = factor(TripType)) %>% 
+    set_names(nm = c('x','y')) %>%
+    group_by(x,y) %>% 
+    tally %>% 
+    ungroup %>% 
+    group_by(x) %>% 
+    mutate(porc = 100*n/sum(n)) %>% 
+    ungroup %>% 
+    ggplot(aes(x = x, y = porc))+
+    geom_col(aes(fill = y), width = 0.7)+
+    theme_minimal()+
+    labs(title = 'Composición de variables categóricas de acuerdo a los tickets',
+         x = 'TripType',
+         y = 'Porcentaje',
+         fill = 'Weekday')+
+    theme(axis.text.x = element_text(angle = 90))) %>% 
+  layout(legend = list(orientation = 'h'))
+```
+
+
+De nuevo vemos que los días de la semana resultan balanceados en su distribución a través de los TripType.
+
+## Análisis Multivariado
+
+Ahora, con base en los hallazgos anteriores, se decidió crear la siguiente base de datos con técnicas de ingeniería de características que se explican en la sección de preparación de datos. Aquí presentamos los hallazgos más importantes de estás nuevas variables donde se muestran, dado una canasta en particular (un ticket), la probabilidad que pertenezcan los productos dentro de ella a un departamento dado.
+
+```{r}
+walmart_train_trip <- readRDS('datos/walmart_train_trip.RDS')
+
+kable(head(walmart_train_trip)) %>%  kable_styling(bootstrap_options = "striped", full_width = F) 
+```
+
+
+
+Ahora, hay que entender mejor la relación entre los tipos de departamento y los tipos de canastas de los tickets en la base de datos., Entonces, en la base datostransformada se tienen los tickets y la probabilidad de que un departamento sea el dominante (en el sentido de que la mayoría de los productos de ese ticket pertenezca sólo a un departamente, una frecuencia hacia dentro del ticket), así al tomar el valor esperado respecto al tipo de canasta (*triptype*) de todas estas probabilidades. Ahora, buscamos encontrar los departamentos cuyas probabilidades se muevan en el mismo sentido de acuerdo al tipo de canasta. Así pues, conseguimos el siguiente mapa de calor: 
+
+
+```{r}
+tt <- walmart_train_trip %>% 
+  select(contains('prob'), triptype) %>% 
+  group_by(triptype) %>% 
+  # summarise(val = sum(producto_cantidad,na.rm =T)) %>%
+  summarise_all(mean) %>% 
+  ungroup 
+
+correlation <- tt %>%
+  .[,-1]%>%  
+  cor() %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var = 'var1') %>% 
+  gather(var2, val, -var1) %>% 
+  unique %>% 
+  filter(val > .5)
+
+correlation %>% 
+  ggplot( aes(var1, var2)) + # x and y axes => Var1 and Var2
+  geom_tile(aes(fill = val)) + # background colours are mapped according to the value column
+  # geom_text(aesX(fill = correlation$val, label = round(correlation$val, 2))) + # write the values
+  scale_fill_gradient2(low = muted("darkred"), 
+                       mid = "white", 
+                       high = muted("midnightblue"), 
+                       midpoint = 0) + # determine the colour
+  theme(panel.grid.major.x=element_blank(), #no gridlines
+        panel.grid.minor.x=element_blank(), 
+        panel.grid.major.y=element_blank(), 
+        panel.grid.minor.y=element_blank(),
+        panel.background=element_rect(fill="white"), # background=white
+        axis.text.x = element_text(angle=90, hjust = 1,vjust=1,size = 12,face = "bold"),
+        plot.title = element_text(size=20,face="bold"),
+        axis.text.y = element_text(size = 12,face = "bold")) + 
+  ggtitle("Mapa de Calor") + 
+  theme(legend.title=element_text(face="bold", size=14),
+        legend.position = 'bottom') + 
+  scale_x_discrete(name="") +
+  scale_y_discrete(name="") +
+  labs(fill="Medida de Asociación")
+```
+
+
+Nótese cómo sí existen departamentos cuyas probabilidades respecto al tipo de canasta son paralelas en el sentido de que se mueven en la misma direccion. Es decir, si así se deseara, se podrían agrupar los departamentos sin sufrir pérdida de información reduciéndo la dimensionalidad del problema. Esto puede verse más claro al observar el siguiente grafo de asociación.
+
+```{r}
+graficar_red_nd <- function(dat_g, subtitulo, size = 'centrality'){
+  if(size == 'centrality'){
+    dat_g %>% 
+      ggraph(layout = 'linear', circular = TRUE) +
+      geom_edge_link(aes(edge_width = val), alpha = .3,
+                     arrow = arrow(length = unit(.4, 'mm')),
+                     color = '#24CBE5') +
+      geom_node_point(aes(size = centrality), colour = 'salmon') +
+      geom_node_text(aes(label = nombre), nudge_y = 0.2, size=3, repel = TRUE) +
+      theme_graph(base_family = 'sans')+
+      theme(legend.position = 'bottom')+
+      labs(title = 'Grafo de asociación',
+           subtitle = paste(subtitulo)) 
+  }else{
+    dat_g %>% 
+      ggraph(layout = 'linear', circular = TRUE) +
+      geom_edge_link(aes(edge_width = val), alpha = .3,
+                     arrow = arrow(length = unit(.4, 'mm')),
+                     color = '#24CBE5') +
+      geom_node_point(aes(size = importancia), colour = 'salmon') +
+      geom_node_text(aes(label = nombre), nudge_y = 0.2, size=3, repel = TRUE) +
+      theme_graph(base_family = 'sans')+
+      theme(legend.position = 'bottom')+
+      labs(title = 'Grafo de asociación',
+           subtitle = paste(subtitulo)) 
+  }
+}
+
+graph <- as_tbl_graph(correlation) %>%
+  mutate(importancia = centrality_degree(mode = "all")) %>%
+  activate(nodes) %>%
+  mutate(centrality = centrality_betweenness(directed = FALSE),
+         nombre = unique(correlation%>%
+                           select(var1) %>%
+                           rbind(correlation%>%
+                                   select(var1 = var2)) %>% .$var1))
+
+
+graficar_red_nd(graph, 'Agrupamiento de DepartmentType respecto al valor esperado del TripType entre canastas')
+
+```
+
+
+
+
+Esto se deja como un ejercio a futuro, por escasez de tiempo.
