@@ -1,11 +1,14 @@
-# Walmart-Data-Mining
+# Proyecto Final - Minería de Datos
 
-1. Recolección de los datos: César (SII) 
-2. Comprensión de los datos (Luis- Shinny) : VIERNES
-3. Preparción de los datos: Beto, Luis <3 R : SABADO :D
-4. Modelado - Paola Python <3 Pipelines, Jupyter 
-5. Evaluación Kaggle - César
-6. Producción - Paola
+**Profesor:** Juan Salvador Marmol
 
+**Integrantes de equipo:**
 
-Próxima junta: Sábado 6 PM
+* Paola Mejía Domenzaín
+* Alberto Madujano
+* Luis Eugenio Rojón
+* César Zamora Martínez
+
+***
+
+Este carpeta corresponde a los archivos del proyecto final del curso sobre los datos de tipos de viajes realizados por los clientes de Walmart.
