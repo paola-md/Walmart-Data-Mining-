@@ -1,0 +1,1 @@
+curl -H "Content-type: application/json" -X POST http://0.0.0.0:5000/modelo -d '{"upc":3, "day":2, "count":2, "dep":1, "finel":5}'
