@@ -45,3 +45,7 @@ Este modelo resulto tener el mejor desempeño tras un proceso de calibración de
 
 ![Modelo logístico](kaggle_best.jpeg)
 
+Cabe destacar que una de las ventajas del modelo de bosque aleatorio es que a través del mismo se pueden delinear aquellas variables que son más relevantes a la hora
+de entrenar los árboles individuales, dicho de otra forma, podemos ver que variables explican mejor la segmentación de los tipos de visitas de los clientes. En concreto, tal corresponde
+a la estimación de los *feature importance*, que en alto nivel reflejan aquellas variables que reducen más la entropía en los datos, es decir, que variables dividen mejor los datos, y por enden impactan
+en mayor medida sobre la predicción de las variables respuesta.
